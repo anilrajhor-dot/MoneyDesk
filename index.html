@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MoneyDesk v4.1 — Personal Finance Workbench</title>
+<title>MoneyDesk v4.2 — Personal Finance Workbench</title>
 
 <!-- ==== FONTS: Poppins for headings/UI, IBM Plex Mono for tabular figures ==== -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -259,6 +259,13 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 
+
+.ask-float{position:fixed;right:18px;bottom:78px;z-index:80;border:0;border-radius:999px;padding:13px 18px;background:var(--ink);color:var(--cream);font-weight:800;font-size:13px;box-shadow:var(--shadow-lg);cursor:pointer;display:flex;align-items:center;gap:7px}
+.ask-float:hover{transform:translateY(-1px)}
+[data-theme="dark"] .ask-float{background:var(--gold);color:#0E0E10}
+.ask-answer{margin-top:12px;padding:12px 14px;border:1px solid var(--line);border-left:3px solid var(--gold);background:var(--soft);border-radius:10px;line-height:1.5;font-size:13px}
+@media(max-width:860px){.ask-float{right:14px;bottom:82px;padding:12px 15px}.ask-float span{display:inline}}
+
 .app-version-line{display:none;text-align:center;font-size:12px;font-weight:600;color:var(--muted);padding:6px 18px 2px;letter-spacing:.2px}.app-version-line strong{color:var(--ink);font-weight:800}
 .demo-mode-banner{margin:10px 18px 0;padding:10px 14px;border:2px solid var(--gold);background:var(--soft);border-radius:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px}.demo-mode-banner strong{font-weight:800}.demo-mode-banner span{color:var(--muted)}.demo-mode-banner .btn{margin-left:auto}
 .demo-test-row{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line)}.demo-test-row:last-child{border-bottom:0}.demo-test-icon{font-weight:800;min-width:22px}.demo-test-ok{color:var(--green)}.demo-test-fail{color:var(--rust)}
@@ -298,14 +305,14 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
     <!-- ===================== TOP BAR ===================== -->
     <header class="topbar">
       <h2 id="viewTitle">Dashboard</h2>
-      <span class="pill" id="appVersionPill" style="font-weight:800;border:2px solid var(--gold);background:var(--gold-soft);color:var(--ink)">MoneyDesk v4.1</span>
+      <span class="pill" id="appVersionPill" style="font-weight:800;border:2px solid var(--gold);background:var(--gold-soft);color:var(--ink)">MoneyDesk v4.2</span>
       <span class="pill" id="fyPill">FY 2026-27</span>
       <div class="meter" title="Browser storage used (limit is about 5 MB)">
         <span>Storage</span>
         <div class="bar" id="storageBar"><i style="width:0%"></i></div>
         <span class="num" id="storagePct">0%</span>
       </div>
-      <button class="btn ghost sm" id="btnHelp">Help</button><button class="btn sm" id="btnQuickBackup">Back up now</button><button class="btn sm" id="btnTopImport" style="border:2px solid var(--accent);font-weight:800">📥 Import backup</button>
+      <button class="btn ghost sm" id="btnHelp">Help</button><button class="btn sm" id="btnQuickBackup">Back up now</button>
     </header>
 
     <div class="developer-banner" role="note" aria-label="Application developer">
@@ -317,7 +324,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
       </div>
     </div>
 
-    <div class="app-version-line" aria-label="Application version">MoneyDesk <strong>v4.1</strong> · Personal Finance Workbench</div>
+    <div class="app-version-line" aria-label="Application version">MoneyDesk <strong>v4.2</strong> · Personal Finance Workbench</div>
 
     <div id="demoModeBanner" class="demo-mode-banner" role="status" style="display:none">
       <strong>TEST MODE — Dummy Data Loaded</strong>
@@ -792,7 +799,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
         <div class="card"><div class="card-h"><h3>Slab-wise breakdown — new regime</h3></div><div class="tablewrap"><table id="tblSlabNew"></table></div></div>
       </div>
 
-      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v4.1</div>
+      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v4.2</div>
 
       <div class="disclaimer">This tool provides estimates for planning purposes only. It is not tax, investment, or financial advice. Verify with a qualified chartered accountant or financial adviser before acting on these numbers.</div>
     </section>
@@ -876,7 +883,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
         <div class="grid g3" id="goalCards"></div>
       </div>
 
-      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v4.1</div>
+      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v4.2</div>
 
       <div class="disclaimer">This tool provides estimates for planning purposes only. It is not tax, investment, or financial advice. Verify with a qualified chartered accountant or financial adviser before acting on these numbers.</div>
     </section>
@@ -898,7 +905,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
 
 <!-- ===================== MODALS ===================== -->
 <div class="modal" id="mHelp"><div class="modal-box">
-  <h3>MoneyDesk v4.1 — Help</h3>
+  <h3>MoneyDesk v4.2 — Help</h3>
   <p class="kpi-sub">A quick guide to the main features.</p>
   <div class="card" style="margin-top:14px;box-shadow:none">
     <b>Dashboard</b><p class="kpi-sub">Shows spending, loans, tax estimate, goals, net worth and financial-health observations.</p>
@@ -1005,12 +1012,29 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
   <div style="display:flex;gap:10px;margin-top:18px;justify-content:flex-end"><button class="btn ghost" data-close>Cancel</button><button class="btn danger" id="btnImportConfirm">Replace my data</button></div>
 </div></div>
 
+<button class="ask-float" id="btnAskMe" aria-label="Ask MoneyDesk a question">💬 <span>Ask Me</span></button>
+
+<div class="modal" id="mAsk"><div class="modal-box" style="width:min(560px,100%)">
+  <h3>💬 Ask MoneyDesk</h3>
+  <p class="kpi-sub">Ask about using the app, your current figures, or a calculation shown by MoneyDesk.</p>
+  <div class="field" style="margin-top:14px"><label for="askInput">Your question</label><input id="askInput" type="text" placeholder="e.g. Why is my net worth ₹24.43 lakh?" autocomplete="off"></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+    <button class="btn ghost sm" data-ask="backup">How do I backup?</button>
+    <button class="btn ghost sm" data-ask="import">How do I import?</button>
+    <button class="btn ghost sm" data-ask="health">Explain Health Check</button>
+    <button class="btn ghost sm" data-ask="networth">Explain Net Worth</button>
+  </div>
+  <button class="btn" id="btnAskSubmit" style="margin-top:12px">Ask</button>
+  <div id="askAnswer" class="ask-answer" style="display:none"></div>
+  <div style="text-align:right;margin-top:16px"><button class="btn ghost" data-close>Close</button></div>
+</div></div>
+
 <div id="toast"></div>
 
 <script>
 "use strict";
 /* =====================================================================================
-   MoneyDesk v4.1 — Personal Finance Workbench
+   MoneyDesk v4.2 — Personal Finance Workbench
    Single-file, offline, localStorage-only. No network calls except the two CDN tags.
    ===================================================================================== */
 
@@ -2748,7 +2772,7 @@ function runDemoTests(){
 function runHealthCheck(){
   const results=[];
   const check=(ok,title,detail)=>{results.push({ok,title,detail});};
-  const requiredIds=['view-dashboard','view-expenses','view-money','view-networth','view-loans','view-tax','view-goals','view-reports','view-healthcheck','btnHelp','btnData','btnQuickBackup','btnAddExpense','btnAddIncome','btnAddAccount','btnAddAsset','btnAddLiability','btnSaveLoan','btnSaveGoal','btnRunHealth','btnTopImport','btnDashboardImport'];
+  const requiredIds=['view-dashboard','view-expenses','view-money','view-networth','view-loans','view-tax','view-goals','view-reports','view-healthcheck','btnHelp','btnData','btnQuickBackup','btnAddExpense','btnAddIncome','btnAddAccount','btnAddAsset','btnAddLiability','btnSaveLoan','btnSaveGoal','btnRunHealth','btnDashboardImport','btnAskMe'];
   const missing=requiredIds.filter(id=>!document.getElementById(id));
   check(missing.length===0,'Application controls',missing.length?'Missing: '+missing.join(', '):'All critical navigation and action controls are present.');
 
@@ -2839,7 +2863,7 @@ function renderReports(){
 }
 function reportCsv(){
   const {ex,inc}=reportLists(); const nw=netWorthTotals();
-  const rows=[['MoneyDesk v4.1 report',reportPeriod],[],['Income','Amount']];
+  const rows=[['MoneyDesk v4.2 report',reportPeriod],[],['Income','Amount']];
   const it={};inc.forEach(x=>it[x.source||'Other']=(it[x.source||'Other']||0)+n(x.amount)); Object.entries(it).forEach(([k,v])=>rows.push([k,v.toFixed(2)]));
   rows.push([],['Expenses','Amount']); const et={};ex.forEach(x=>{const k=catById(x.category).name;et[k]=(et[k]||0)+n(x.amount)}); Object.entries(et).forEach(([k,v])=>rows.push([k,v.toFixed(2)]));
   rows.push([],['Balance sheet','Amount'],['Assets',nw.assets.toFixed(2)],['Liabilities',nw.liabilities.toFixed(2)],['Net worth',nw.net.toFixed(2)]);
@@ -3000,8 +3024,32 @@ function wire(){
   // Navigation
   $$('#navMain .navbtn, #navTabs button').forEach(b => b.onclick = () => showView(b.dataset.view));
 
-  // Help
+  // Help / Ask Me
   $('#btnHelp').onclick = () => openModal('mHelp');
+  $('#btnAskMe').onclick = () => { $('#askInput').value=''; $('#askAnswer').style.display='none'; $('#askAnswer').textContent=''; openModal('mAsk'); setTimeout(()=>$('#askInput').focus(),50); };
+  function answerAsk(key){
+    const spend=sum(monthExpenses(today()).map(e=>n(e.amount)));
+    const incomeNow=INCOME.filter(x=>x.date && x.date.slice(0,7)===iso(today()).slice(0,7)).reduce((a,x)=>a+n(x.amount),0);
+    const nw=calcNetWorth();
+    const loanBal=LOANS.reduce((a,l)=>a+(l.actualOutstanding==null?loanSchedule(l.amount,l.rate,l.months,l.start).outstanding:Math.max(0,n(l.actualOutstanding))),0);
+    const q=String(key||$('#askInput').value).toLowerCase();
+    let ans='';
+    if(q.includes('backup')||q.includes('save')) ans='Use “Back up now” on the top bar for a JSON backup. You can also open Data & Backup and use Export Backup (.JSON). Keep the file somewhere safe.';
+    else if(q.includes('import')||q.includes('restore')) ans='Tap “Import Backup (.JSON)” in the Backup & Restore section, select your MoneyDesk JSON file from the iPhone Files app, review the summary, then choose “Replace my data”.';
+    else if(q.includes('health')) ans='Health Check tests the app structure, stored data, account links, loan calculations, net worth, tax engine and backup format. Demo Calculation Tests are designed to verify the supplied dummy dataset.';
+    else if(q.includes('net worth')||q.includes('networth')) ans='Net Worth is calculated as total assets minus liabilities, including the actual outstanding balances recorded for saved loans. Current net worth is '+inr(nw.net)+'.';
+    else if(q.includes('expense')||q.includes('spend')) ans='Your current-month spending is '+inr(spend)+'. The Expenses screen lets you filter, edit, categorise and export transactions.';
+    else if(q.includes('income')) ans='Recorded income for the current month is '+inr(incomeNow)+'. If income transactions are not available, MoneyDesk can use the monthly-income setting on the Dashboard.';
+    else if(q.includes('loan')||q.includes('emi')) ans='Your recorded loan balance is '+inr(loanBal)+'. Open Loans & EMI to see EMI, amortisation, actual outstanding and prepayment analysis.';
+    else if(q.includes('tax')) ans='Open Tax to compare the old and new regimes for the selected financial year. Tax figures are planning estimates and should be verified before filing.';
+    else if(q.includes('goal')) ans='Open Goals to plan SIPs, lumpsums, education, emergency funds and retirement needs. Saved goals also contribute to the Dashboard goal summary.';
+    else if(q.includes('report')) ans='Open Reports for income, expenses, net worth and loan summaries. Reports can be exported as CSV or printed.';
+    else ans='I can help with Backup, Import/Restore, Expenses, Income, Loans & EMI, Tax, Goals, Net Worth, Reports and Health Check. Try asking one of these specifically.';
+    $('#askAnswer').textContent=ans; $('#askAnswer').style.display='block';
+  }
+  $('#btnAskSubmit').onclick=()=>answerAsk();
+  $('#askInput').addEventListener('keydown',e=>{if(e.key==='Enter')answerAsk();});
+  $$('[data-ask]').forEach(b=>b.onclick=()=>answerAsk(b.dataset.ask));
 
   // Net worth
   $('#btnAddAsset').onclick = () => { const name=$('#nwAssetName').value.trim(), value=n($('#nwAssetValue').value); if(!name || value<=0) return void toast('Enter an asset name and positive value.'); ASSETS.push({id:uid(),name,value,type:$('#nwAssetType').value}); save.assets(); $('#nwAssetName').value=''; $('#nwAssetValue').value=''; renderNetWorth(); renderDashboard(); toast('Asset added.'); };
@@ -3162,7 +3210,6 @@ function wire(){
   $('#btnExport').onclick = exportAll;
   $('#btnExportCsv2').onclick = exportExpensesCSV;
   $('#btnImport').onclick = () => $('#fileImport').click();
-  $('#btnTopImport').onclick = () => $('#fileImport').click();
   $('#btnDashboardImport').onclick = () => $('#fileImport').click();
   $('#btnLoadDemo').onclick = loadDemoData;
   $('#fileImport').addEventListener('change', e => { if(e.target.files[0]) handleImportFile(e.target.files[0]); e.target.value = ''; });
@@ -3176,7 +3223,7 @@ function wire(){
 function bootUI(){
   applyTheme();
   $('#appName').textContent = SETTINGS.appName || 'MoneyDesk';
-  document.title = (SETTINGS.appName || 'MoneyDesk') + ' — Personal Finance Workbench v4.1';
+  document.title = (SETTINGS.appName || 'MoneyDesk') + ' — Personal Finance Workbench v4.2';
   if($('#fyPill')) $('#fyPill').textContent = TAXP.fy ? 'FY '+TAXP.fy : 'FY 2026-27';
   if($('#demoModeBanner')) $('#demoModeBanner').style.display = SETTINGS.demoMode ? 'flex' : 'none';
 
