@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MoneyDesk v3.2 — Personal Finance Workbench</title>
+<title>MoneyDesk v3.3 — Personal Finance Workbench</title>
 
 <!-- ==== FONTS: Poppins for headings/UI, IBM Plex Mono for tabular figures ==== -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -69,6 +69,13 @@ button,input,select,textarea{font-family:inherit;font-size:inherit;color:inherit
 /* Every number in the app uses tabular figures so digit columns align */
 .num,td.num,input[type=number],.kpi-value,table td,table th{font-variant-numeric:tabular-nums}
 .num,.kpi-value,.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* ===================== DEVELOPER CREDIT ===================== */
+.developer-banner{background:linear-gradient(90deg,var(--gold-soft),var(--card));border-bottom:1px solid var(--line);padding:10px 26px}
+.developer-banner-inner{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:9px;text-align:center;color:var(--ink);font-size:13px;line-height:1.4}
+.developer-label{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--muted)}
+.developer-banner strong{font-size:14px;font-weight:800}.developer-separator{color:var(--gold);font-weight:800}
+@media(max-width:720px){.developer-banner{padding:9px 14px}.developer-banner-inner{flex-wrap:wrap;gap:5px;font-size:11.5px}.developer-banner strong{font-size:13px}.developer-label{font-size:9.5px}.developer-separator{display:none}}
 
 /* ===================== LAYOUT ===================== */
 .app{display:flex;min-height:100vh}
@@ -294,6 +301,15 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
       </div>
       <button class="btn ghost sm" id="btnHelp">Help</button><button class="btn sm" id="btnQuickBackup">Back up now</button>
     </header>
+
+    <div class="developer-banner" role="note" aria-label="Application developer">
+      <div class="developer-banner-inner">
+        <span class="developer-label">Developed by</span>
+        <strong>Anil Sharma</strong>
+        <span class="developer-separator">•</span>
+        <span>Former General Manager, Central Bank of India</span>
+      </div>
+    </div>
 
     <div class="wrap">
 
@@ -727,7 +743,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
         <div class="card"><div class="card-h"><h3>Slab-wise breakdown — new regime</h3></div><div class="tablewrap"><table id="tblSlabNew"></table></div></div>
       </div>
 
-      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v3.2</div>
+      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v3.3</div>
 
       <div class="disclaimer">This tool provides estimates for planning purposes only. It is not tax, investment, or financial advice. Verify with a qualified chartered accountant or financial adviser before acting on these numbers.</div>
     </section>
@@ -811,7 +827,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
         <div class="grid g3" id="goalCards"></div>
       </div>
 
-      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v3.2</div>
+      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v3.3</div>
 
       <div class="disclaimer">This tool provides estimates for planning purposes only. It is not tax, investment, or financial advice. Verify with a qualified chartered accountant or financial adviser before acting on these numbers.</div>
     </section>
@@ -833,7 +849,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
 
 <!-- ===================== MODALS ===================== -->
 <div class="modal" id="mHelp"><div class="modal-box">
-  <h3>MoneyDesk v3.2 — Help</h3>
+  <h3>MoneyDesk v3.3 — Help</h3>
   <p class="kpi-sub">A quick guide to the main features.</p>
   <div class="card" style="margin-top:14px;box-shadow:none">
     <b>Dashboard</b><p class="kpi-sub">Shows spending, loans, tax estimate, goals, net worth and financial-health observations.</p>
@@ -937,7 +953,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
 <script>
 "use strict";
 /* =====================================================================================
-   MoneyDesk v3.2 — Personal Finance Workbench
+   MoneyDesk v3.3 — Personal Finance Workbench
    Single-file, offline, localStorage-only. No network calls except the two CDN tags.
    ===================================================================================== */
 
@@ -2656,7 +2672,7 @@ function renderReports(){
 }
 function reportCsv(){
   const {ex,inc}=reportLists(); const nw=netWorthTotals();
-  const rows=[['MoneyDesk v3.2 report',reportPeriod],[],['Income','Amount']];
+  const rows=[['MoneyDesk v3.3 report',reportPeriod],[],['Income','Amount']];
   const it={};inc.forEach(x=>it[x.source||'Other']=(it[x.source||'Other']||0)+n(x.amount)); Object.entries(it).forEach(([k,v])=>rows.push([k,v.toFixed(2)]));
   rows.push([],['Expenses','Amount']); const et={};ex.forEach(x=>{const k=catById(x.category).name;et[k]=(et[k]||0)+n(x.amount)}); Object.entries(et).forEach(([k,v])=>rows.push([k,v.toFixed(2)]));
   rows.push([],['Balance sheet','Amount'],['Assets',nw.assets.toFixed(2)],['Liabilities',nw.liabilities.toFixed(2)],['Net worth',nw.net.toFixed(2)]);
