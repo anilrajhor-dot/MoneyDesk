@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MoneyDesk v3.7 — Personal Finance Workbench</title>
+<title>MoneyDesk v3.8 — Personal Finance Workbench</title>
 
 <!-- ==== FONTS: Poppins for headings/UI, IBM Plex Mono for tabular figures ==== -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -273,7 +273,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
       <div class="logo">₹</div>
       <div>
         <h1 id="appName">MoneyDesk</h1>
-        <p>Personal Finance Workbench · <b>v3.7</b></p>
+        <p>Personal Finance Workbench · <b>v3.8</b></p>
       </div>
     </div>
     <nav class="nav" id="navMain">
@@ -298,7 +298,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
     <!-- ===================== TOP BAR ===================== -->
     <header class="topbar">
       <h2 id="viewTitle">Dashboard</h2>
-      <span class="pill" id="appVersionPill" style="font-weight:800;border:2px solid var(--gold);background:var(--gold-soft);color:var(--ink)">MoneyDesk v3.7</span>
+      <span class="pill" id="appVersionPill" style="font-weight:800;border:2px solid var(--gold);background:var(--gold-soft);color:var(--ink)">MoneyDesk v3.8</span>
       <span class="pill" id="fyPill">FY 2026-27</span>
       <div class="meter" title="Browser storage used (limit is about 5 MB)">
         <span>Storage</span>
@@ -317,7 +317,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
       </div>
     </div>
 
-    <div class="app-version-line" aria-label="Application version">MoneyDesk <strong>v3.7</strong> · Personal Finance Workbench</div>
+    <div class="app-version-line" aria-label="Application version">MoneyDesk <strong>v3.8</strong> · Personal Finance Workbench</div>
 
     <div id="demoModeBanner" class="demo-mode-banner" role="status" style="display:none">
       <strong>TEST MODE — Dummy Data Loaded</strong>
@@ -792,7 +792,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
         <div class="card"><div class="card-h"><h3>Slab-wise breakdown — new regime</h3></div><div class="tablewrap"><table id="tblSlabNew"></table></div></div>
       </div>
 
-      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v3.7</div>
+      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v3.8</div>
 
       <div class="disclaimer">This tool provides estimates for planning purposes only. It is not tax, investment, or financial advice. Verify with a qualified chartered accountant or financial adviser before acting on these numbers.</div>
     </section>
@@ -876,7 +876,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
         <div class="grid g3" id="goalCards"></div>
       </div>
 
-      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v3.7</div>
+      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v3.8</div>
 
       <div class="disclaimer">This tool provides estimates for planning purposes only. It is not tax, investment, or financial advice. Verify with a qualified chartered accountant or financial adviser before acting on these numbers.</div>
     </section>
@@ -898,7 +898,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
 
 <!-- ===================== MODALS ===================== -->
 <div class="modal" id="mHelp"><div class="modal-box">
-  <h3>MoneyDesk v3.7 — Help</h3>
+  <h3>MoneyDesk v3.8 — Help</h3>
   <p class="kpi-sub">A quick guide to the main features.</p>
   <div class="card" style="margin-top:14px;box-shadow:none">
     <b>Dashboard</b><p class="kpi-sub">Shows spending, loans, tax estimate, goals, net worth and financial-health observations.</p>
@@ -915,8 +915,9 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
 </div></div>
 
 <div class="modal" id="mData"><div class="modal-box">
-  <h3>Data &amp; backup</h3>
-  <p class="kpi-sub">Everything lives in this browser only. Clearing browser data wipes it, so keep a backup file somewhere safe.</p>
+  <h3>Data &amp; Backup</h3>
+  <div class="note" style="margin-top:8px;border:2px solid var(--accent);font-size:14px"><b>BACKUP &amp; RESTORE</b><br><span class="kpi-sub">Import your MoneyDesk JSON backup or export your current data safely.</span></div>
+  <p class="kpi-sub" style="margin-top:10px">Everything lives in this browser only. Clearing browser data wipes it, so keep a backup file somewhere safe.</p>
   <div class="card" style="margin-top:14px;border:2px solid var(--gold);box-shadow:none;background:var(--soft)">
     <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span class="badge">TEST DATA</span><b>Load Dummy Data</b></div>
     <p class="kpi-sub" style="margin-top:7px">Loads a complete sample dataset for checking Dashboard, Income, Expenses, Loans, Net Worth, Tax, Goals, Reports and Health Check.</p>
@@ -924,12 +925,13 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
     <div class="kpi-sub" style="margin-top:7px">⚠️ This replaces the data currently stored in this browser. Export a backup first if you have real data.</div>
   </div>
   <div class="grid g2" style="margin-top:16px">
-    <button class="btn" id="btnExport">Export all data (.json)</button>
-    <button class="btn ghost" id="btnImport">Import from backup</button>
+    <button class="btn" id="btnImport" style="font-weight:800;border:2px solid var(--accent)">📥 IMPORT BACKUP (.JSON)</button>
+    <button class="btn" id="btnExport" style="font-weight:800">📤 EXPORT BACKUP (.JSON)</button>
     <button class="btn ghost" id="btnExportCsv2">Export expenses as CSV</button>
     <button class="btn danger" id="btnClear">Clear all data</button>
   </div>
   <input type="file" id="fileImport" accept="application/json,.json" style="display:none">
+  <div class="kpi-sub" style="margin-top:8px"><b>Import:</b> tap the button above, select your <b>MoneyDesk .json</b> backup from Files/Downloads, review the contents, then choose <b>Replace my data</b>.</div>
   <div class="card" style="margin-top:16px;box-shadow:none">
     <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px"><span>Storage used</span><span class="num" id="storageTxt">—</span></div>
     <div class="bar" id="storageBar2"><i style="width:0%"></i></div>
@@ -1008,7 +1010,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
 <script>
 "use strict";
 /* =====================================================================================
-   MoneyDesk v3.7 — Personal Finance Workbench
+   MoneyDesk v3.8 — Personal Finance Workbench
    Single-file, offline, localStorage-only. No network calls except the two CDN tags.
    ===================================================================================== */
 
@@ -2832,7 +2834,7 @@ function renderReports(){
 }
 function reportCsv(){
   const {ex,inc}=reportLists(); const nw=netWorthTotals();
-  const rows=[['MoneyDesk v3.7 report',reportPeriod],[],['Income','Amount']];
+  const rows=[['MoneyDesk v3.8 report',reportPeriod],[],['Income','Amount']];
   const it={};inc.forEach(x=>it[x.source||'Other']=(it[x.source||'Other']||0)+n(x.amount)); Object.entries(it).forEach(([k,v])=>rows.push([k,v.toFixed(2)]));
   rows.push([],['Expenses','Amount']); const et={};ex.forEach(x=>{const k=catById(x.category).name;et[k]=(et[k]||0)+n(x.amount)}); Object.entries(et).forEach(([k,v])=>rows.push([k,v.toFixed(2)]));
   rows.push([],['Balance sheet','Amount'],['Assets',nw.assets.toFixed(2)],['Liabilities',nw.liabilities.toFixed(2)],['Net worth',nw.net.toFixed(2)]);
