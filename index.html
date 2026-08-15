@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MoneyDesk v4.0 — Personal Finance Workbench</title>
+<title>MoneyDesk v4.1 — Personal Finance Workbench</title>
 
 <!-- ==== FONTS: Poppins for headings/UI, IBM Plex Mono for tabular figures ==== -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -259,7 +259,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 
-.app-version-line{text-align:center;font-size:12px;font-weight:600;color:var(--muted);padding:6px 18px 2px;letter-spacing:.2px}.app-version-line strong{color:var(--ink);font-weight:800}
+.app-version-line{display:none;text-align:center;font-size:12px;font-weight:600;color:var(--muted);padding:6px 18px 2px;letter-spacing:.2px}.app-version-line strong{color:var(--ink);font-weight:800}
 .demo-mode-banner{margin:10px 18px 0;padding:10px 14px;border:2px solid var(--gold);background:var(--soft);border-radius:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px}.demo-mode-banner strong{font-weight:800}.demo-mode-banner span{color:var(--muted)}.demo-mode-banner .btn{margin-left:auto}
 .demo-test-row{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line)}.demo-test-row:last-child{border-bottom:0}.demo-test-icon{font-weight:800;min-width:22px}.demo-test-ok{color:var(--green)}.demo-test-fail{color:var(--rust)}
 </style>
@@ -273,7 +273,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
       <div class="logo">₹</div>
       <div>
         <h1 id="appName">MoneyDesk</h1>
-        <p>Personal Finance Workbench · <b>v3.9</b></p>
+        <p>Personal Finance Workbench · <b>v4.1</b></p>
       </div>
     </div>
     <nav class="nav" id="navMain">
@@ -298,7 +298,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
     <!-- ===================== TOP BAR ===================== -->
     <header class="topbar">
       <h2 id="viewTitle">Dashboard</h2>
-      <span class="pill" id="appVersionPill" style="font-weight:800;border:2px solid var(--gold);background:var(--gold-soft);color:var(--ink)">MoneyDesk v4.0</span>
+      <span class="pill" id="appVersionPill" style="font-weight:800;border:2px solid var(--gold);background:var(--gold-soft);color:var(--ink)">MoneyDesk v4.1</span>
       <span class="pill" id="fyPill">FY 2026-27</span>
       <div class="meter" title="Browser storage used (limit is about 5 MB)">
         <span>Storage</span>
@@ -317,7 +317,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
       </div>
     </div>
 
-    <div class="app-version-line" aria-label="Application version">MoneyDesk <strong>v3.9</strong> · Personal Finance Workbench</div>
+    <div class="app-version-line" aria-label="Application version">MoneyDesk <strong>v4.1</strong> · Personal Finance Workbench</div>
 
     <div id="demoModeBanner" class="demo-mode-banner" role="status" style="display:none">
       <strong>TEST MODE — Dummy Data Loaded</strong>
@@ -792,7 +792,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
         <div class="card"><div class="card-h"><h3>Slab-wise breakdown — new regime</h3></div><div class="tablewrap"><table id="tblSlabNew"></table></div></div>
       </div>
 
-      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v4.0</div>
+      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v4.1</div>
 
       <div class="disclaimer">This tool provides estimates for planning purposes only. It is not tax, investment, or financial advice. Verify with a qualified chartered accountant or financial adviser before acting on these numbers.</div>
     </section>
@@ -876,7 +876,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
         <div class="grid g3" id="goalCards"></div>
       </div>
 
-      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v4.0</div>
+      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v4.1</div>
 
       <div class="disclaimer">This tool provides estimates for planning purposes only. It is not tax, investment, or financial advice. Verify with a qualified chartered accountant or financial adviser before acting on these numbers.</div>
     </section>
@@ -898,7 +898,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
 
 <!-- ===================== MODALS ===================== -->
 <div class="modal" id="mHelp"><div class="modal-box">
-  <h3>MoneyDesk v4.0 — Help</h3>
+  <h3>MoneyDesk v4.1 — Help</h3>
   <p class="kpi-sub">A quick guide to the main features.</p>
   <div class="card" style="margin-top:14px;box-shadow:none">
     <b>Dashboard</b><p class="kpi-sub">Shows spending, loans, tax estimate, goals, net worth and financial-health observations.</p>
@@ -1010,7 +1010,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
 <script>
 "use strict";
 /* =====================================================================================
-   MoneyDesk v4.0 — Personal Finance Workbench
+   MoneyDesk v4.1 — Personal Finance Workbench
    Single-file, offline, localStorage-only. No network calls except the two CDN tags.
    ===================================================================================== */
 
@@ -2839,7 +2839,7 @@ function renderReports(){
 }
 function reportCsv(){
   const {ex,inc}=reportLists(); const nw=netWorthTotals();
-  const rows=[['MoneyDesk v4.0 report',reportPeriod],[],['Income','Amount']];
+  const rows=[['MoneyDesk v4.1 report',reportPeriod],[],['Income','Amount']];
   const it={};inc.forEach(x=>it[x.source||'Other']=(it[x.source||'Other']||0)+n(x.amount)); Object.entries(it).forEach(([k,v])=>rows.push([k,v.toFixed(2)]));
   rows.push([],['Expenses','Amount']); const et={};ex.forEach(x=>{const k=catById(x.category).name;et[k]=(et[k]||0)+n(x.amount)}); Object.entries(et).forEach(([k,v])=>rows.push([k,v.toFixed(2)]));
   rows.push([],['Balance sheet','Amount'],['Assets',nw.assets.toFixed(2)],['Liabilities',nw.liabilities.toFixed(2)],['Net worth',nw.net.toFixed(2)]);
@@ -3176,7 +3176,7 @@ function wire(){
 function bootUI(){
   applyTheme();
   $('#appName').textContent = SETTINGS.appName || 'MoneyDesk';
-  document.title = (SETTINGS.appName || 'MoneyDesk') + ' — Personal Finance Workbench v3.6';
+  document.title = (SETTINGS.appName || 'MoneyDesk') + ' — Personal Finance Workbench v4.1';
   if($('#fyPill')) $('#fyPill').textContent = TAXP.fy ? 'FY '+TAXP.fy : 'FY 2026-27';
   if($('#demoModeBanner')) $('#demoModeBanner').style.display = SETTINGS.demoMode ? 'flex' : 'none';
 
