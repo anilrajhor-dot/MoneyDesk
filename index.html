@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MoneyDesk v4.4 — Personal Finance Workbench</title>
+<title>MoneyDesk v4.5 — Personal Finance Workbench</title>
 
 <!-- ==== FONTS: Poppins for headings/UI, IBM Plex Mono for tabular figures ==== -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -306,7 +306,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
     <!-- ===================== TOP BAR ===================== -->
     <header class="topbar">
       <h2 id="viewTitle">Dashboard</h2>
-      <span class="pill" id="appVersionPill" style="font-weight:800;border:2px solid var(--gold);background:var(--gold-soft);color:var(--ink)">MoneyDesk v4.4</span>
+      <span class="pill" id="appVersionPill" style="font-weight:800;border:2px solid var(--gold);background:var(--gold-soft);color:var(--ink)">MoneyDesk v4.5</span>
       <span class="pill" id="fyPill">FY 2026-27</span>
       <div class="meter" title="Browser storage used (limit is about 5 MB)">
         <span>Storage</span>
@@ -546,6 +546,16 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
         <button class="btn" id="btnReconcile" style="margin-top:10px">Save reconciliation</button>
       </div>
       <div class="note" style="margin-top:14px">Income and expense entries do not automatically change manually entered account balances. Reconcile against the bank statement before using an account balance for Net Worth.</div>
+      <div class="card" style="margin-top:16px;border:2px solid var(--accent);background:var(--card)">
+        <div class="card-h"><h3>🏦 Bank Statement Import</h3><span class="kpi-sub">Import CSV statements and preview transactions before adding them</span></div>
+        <div class="grid g3" style="gap:12px;align-items:end">
+          <div class="field"><label for="stmtAccount">Credit/debit account</label><select id="stmtAccount"></select></div>
+          <div class="field"><label for="stmtMode">Default payment mode</label><select id="stmtMode"></select></div>
+          <button class="btn" id="btnStatementImport">📥 Import Bank CSV</button>
+        </div>
+        <div class="kpi-sub" style="margin-top:9px">Supports common CSV columns such as Date, Description/Narration, Debit, Credit and Amount. Nothing is added until you review and confirm.</div>
+        <input type="file" id="statementFile" accept=".csv,text/csv" style="display:none">
+      </div>
     </section>
 
     <!-- ============================================================
@@ -823,7 +833,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
         <div class="card"><div class="card-h"><h3>Slab-wise breakdown — new regime</h3></div><div class="tablewrap"><table id="tblSlabNew"></table></div></div>
       </div>
 
-      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v4.4</div>
+      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v4.5</div>
 
       <div class="disclaimer">This tool provides estimates for planning purposes only. It is not tax, investment, or financial advice. Verify with a qualified chartered accountant or financial adviser before acting on these numbers.</div>
     </section>
@@ -907,7 +917,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
         <div class="grid g3" id="goalCards"></div>
       </div>
 
-      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v4.4</div>
+      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v4.5</div>
 
       <div class="disclaimer">This tool provides estimates for planning purposes only. It is not tax, investment, or financial advice. Verify with a qualified chartered accountant or financial adviser before acting on these numbers.</div>
     </section>
@@ -929,7 +939,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
 
 <!-- ===================== MODALS ===================== -->
 <div class="modal" id="mHelp"><div class="modal-box">
-  <h3>MoneyDesk v4.4 — Help</h3>
+  <h3>MoneyDesk v4.5 — Help</h3>
   <p class="kpi-sub">A quick guide to the main features.</p>
   <div class="card" style="margin-top:14px;box-shadow:none">
     <b>Dashboard</b><p class="kpi-sub">Shows spending, loans, tax estimate, goals, net worth and financial-health observations.</p>
@@ -1029,6 +1039,14 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
   <div style="display:flex;gap:10px;margin-top:18px;justify-content:flex-end"><button class="btn ghost" data-close>Cancel</button><button class="btn danger" id="btnWipeConfirm" disabled>Clear everything</button></div>
 </div></div>
 
+<div class="modal" id="mStatement"><div class="modal-box" style="width:min(760px,100%)">
+  <h3>🏦 Review Bank Statement Import</h3>
+  <div class="note" id="statementSummary" style="margin-top:10px"></div>
+  <div class="tablewrap" style="margin-top:12px;max-height:340px;overflow:auto"><table id="tblStatementPreview"></table></div>
+  <div class="note warn" style="margin-top:10px">Review the preview carefully. MoneyDesk will skip exact duplicate transactions already in this account and will not alter your existing account balance.</div>
+  <div style="display:flex;gap:10px;margin-top:18px;justify-content:flex-end;flex-wrap:wrap"><button class="btn ghost" data-close>Cancel</button><button class="btn" id="btnStatementConfirm">Add reviewed transactions</button></div>
+</div></div>
+
 <div class="modal" id="mImport"><div class="modal-box" style="width:min(460px,100%)">
   <h3>Replace current data?</h3>
   <div class="note bad" style="margin-top:10px" id="importSummary"></div>
@@ -1058,7 +1076,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
 <script>
 "use strict";
 /* =====================================================================================
-   MoneyDesk v4.4 — Personal Finance Workbench
+   MoneyDesk v4.5 — Personal Finance Workbench
    Single-file, offline, localStorage-only. No network calls except the two CDN tags.
    ===================================================================================== */
 
@@ -2933,7 +2951,7 @@ function renderReports(){
 }
 function reportCsv(){
   const {ex,inc}=reportLists(); const nw=netWorthTotals();
-  const rows=[['MoneyDesk v4.4 report',reportPeriod],[],['Income','Amount']];
+  const rows=[['MoneyDesk v4.5 report',reportPeriod],[],['Income','Amount']];
   const it={};inc.forEach(x=>it[x.source||'Other']=(it[x.source||'Other']||0)+n(x.amount)); Object.entries(it).forEach(([k,v])=>rows.push([k,v.toFixed(2)]));
   rows.push([],['Expenses','Amount']); const et={};ex.forEach(x=>{const k=catById(x.category).name;et[k]=(et[k]||0)+n(x.amount)}); Object.entries(et).forEach(([k,v])=>rows.push([k,v.toFixed(2)]));
   rows.push([],['Balance sheet','Amount'],['Assets',nw.assets.toFixed(2)],['Liabilities',nw.liabilities.toFixed(2)],['Net worth',nw.net.toFixed(2)]);
@@ -2944,6 +2962,77 @@ function printReport(){
   const w=window.open('','_blank'); if(!w) return toast('Allow pop-ups to print the report.');
   w.document.write('<html><head><title>MoneyDesk Financial Report</title><style>body{font-family:Arial,sans-serif;padding:28px;color:#111}h1{margin:0 0 6px}h2{margin-top:24px;border-bottom:1px solid #ccc;padding-bottom:5px}table{border-collapse:collapse;width:100%;margin:10px 0 20px}td,th{padding:7px;border-bottom:1px solid #ddd;text-align:left}th{background:#f3f3f3}.r{text-align:right}.num{font-variant-numeric:tabular-nums}</style></head><body><h1>MoneyDesk Financial Report</h1><div>Period: '+esc(reportPeriod)+' · Generated: '+prettyDate(iso(today()))+'</div><h2>Summary</h2><table>'+$('#tblReportNW').innerHTML+'</table><h2>Income</h2><table>'+$('#tblReportIncome').innerHTML+'</table><h2>Expenses</h2><table>'+$('#tblReportExpense').innerHTML+'</table><h2>Loans</h2><table>'+$('#tblReportLoans').innerHTML+'</table><p>Developed by Anil Sharma · Former General Manager, Central Bank of India</p></body></html>');
   w.document.close(); w.focus(); setTimeout(()=>w.print(),300);
+}
+
+/* =====================================================================================
+   BANK STATEMENT CSV IMPORT
+   ===================================================================================== */
+let pendingStatementRows = [];
+function parseCSVLine(line){
+  const out=[]; let cur='', q=false;
+  for(let i=0;i<line.length;i++){
+    const c=line[i];
+    if(c==='"'){
+      if(q && line[i+1]==='"'){cur+='"'; i++;} else q=!q;
+    } else if(c===',' && !q){out.push(cur.trim()); cur='';}
+    else cur+=c;
+  }
+  out.push(cur.trim()); return out;
+}
+function normaliseHeader(h){ return String(h||'').toLowerCase().replace(/[\s_\-./()]/g,''); }
+function parseStatementDate(v){
+  const x=String(v||'').trim(); if(!x) return null;
+  if(/^\d{4}-\d{1,2}-\d{1,2}$/.test(x)){ const d=parseISO(x); return isNaN(d)?null:iso(d); }
+  let m=x.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{2,4})$/);
+  if(m){ let y=+m[3]; if(y<100)y+=2000; const d=new Date(y,+m[2]-1,+m[1]); return isNaN(d)?null:iso(d); }
+  const d=new Date(x); return isNaN(d)?null:iso(d);
+}
+function parseMoney(v){
+  const x=String(v??'').replace(/[₹,\s]/g,'').replace(/\(([^)]+)\)/,'-$1');
+  const z=Number(x); return Number.isFinite(z)?z:0;
+}
+function detectStatementMap(headers){
+  const h=headers.map(normaliseHeader), find=names=>{for(const n of names){const i=h.indexOf(n);if(i>=0)return i;}return -1;};
+  return {date:find(['date','transactiondate','valuedate','txndate']), desc:find(['description','narration','details','particulars','remarks','transactiondetails']), debit:find(['debit','withdrawal','withdrawals','dr','debitamount']), credit:find(['credit','deposit','deposits','cr','creditamount']), amount:find(['amount','transactionamount']), type:find(['type','transactiontype'])};
+}
+function classifyStatementRow(r,map){
+  const date=parseStatementDate(r[map.date]); if(!date) return null;
+  const desc=String(r[map.desc]||'Bank transaction').trim();
+  let debit=map.debit>=0?parseMoney(r[map.debit]):0, credit=map.credit>=0?parseMoney(r[map.credit]):0;
+  if(!debit && !credit && map.amount>=0){ const a=parseMoney(r[map.amount]); const typ=String(r[map.type]>=0?r[map.type]:'').toLowerCase(); if(/credit|deposit|cr|receipt|income/.test(typ)) credit=Math.abs(a); else debit=Math.abs(a); }
+  if(debit>0 && credit>0){ debit=Math.abs(debit); credit=Math.abs(credit); }
+  if(debit<=0 && credit<=0) return null;
+  return {date,desc,debit:Math.abs(debit),credit:Math.abs(credit)};
+}
+function renderStatementSelectors(){
+  fillSelect($('#stmtAccount'),ACCOUNTS,false); fillSelect($('#stmtMode'),PAY_MODES,false); if($('#stmtMode'))$('#stmtMode').value='Net Banking';
+}
+function statementDuplicate(r,account){
+  const amt=r.debit||r.credit, note=r.desc.toLowerCase();
+  return [...EXPENSES.filter(e=>e.account===account),...INCOME.filter(e=>e.account===account)].some(e=>e.date===r.date && Math.abs(n(e.amount)-amt)<0.01 && String(e.note||'').trim().toLowerCase()===note);
+}
+function handleStatementFile(file){
+  const reader=new FileReader(); reader.onload=()=>{
+    try{
+      const text=String(reader.result||'').replace(/^\uFEFF/,'').trim(); if(!text) throw new Error('empty file');
+      const lines=text.split(/\r?\n/).filter(x=>x.trim()); if(lines.length<2) throw new Error('no data rows');
+      const headers=parseCSVLine(lines[0]); const map=detectStatementMap(headers);
+      if(map.date<0 || (map.debit<0 && map.credit<0 && map.amount<0)) throw new Error('required columns not found');
+      const rows=[]; for(let i=1;i<lines.length;i++){const r=parseCSVLine(lines[i]); const x=classifyStatementRow(r,map); if(x)rows.push(x);}
+      if(!rows.length) throw new Error('no usable transactions found');
+      pendingStatementRows=rows; const acc=$('#stmtAccount').value;
+      const dup=rows.filter(x=>statementDuplicate(x,acc)).length, inc=rows.filter(x=>x.credit>0).length, exp=rows.filter(x=>x.debit>0).length;
+      $('#statementSummary').innerHTML='<b>'+rows.length+' transactions detected.</b> '+inc+' income · '+exp+' expenses · '+dup+' likely duplicates will be skipped.';
+      $('#tblStatementPreview').innerHTML='<thead><tr><th>Date</th><th>Description</th><th class="r">Debit</th><th class="r">Credit</th><th>Status</th></tr></thead><tbody>'+rows.slice(0,100).map(x=>{const d=statementDuplicate(x,acc);return '<tr><td>'+esc(prettyDate(x.date))+'</td><td>'+esc(x.desc)+'</td><td class="r num">'+(x.debit?inr(x.debit):'—')+'</td><td class="r num">'+(x.credit?inr(x.credit):'—')+'</td><td>'+(d?'<span class="statement-preview-badge">Duplicate</span>':'<span class="statement-preview-badge">New</span>')+'</td></tr>';}).join('')+'</tbody>'+(rows.length>100?'<tfoot><tr><td colspan="5">Showing first 100 of '+rows.length+' transactions.</td></tr></tfoot>':'');
+      openModal('mStatement');
+    }catch(e){ toast('Could not read the CSV: '+e.message+'.'); }
+  }; reader.onerror=()=>toast('Could not read that CSV file.'); reader.readAsText(file);
+}
+function confirmStatementImport(){
+  const account=$('#stmtAccount').value, mode=$('#stmtMode').value||'Net Banking'; if(!account)return void toast('Select an account first.');
+  let addedI=0,addedE=0,dups=0;
+  for(const r of pendingStatementRows){ if(statementDuplicate(r,account)){dups++;continue;} if(r.credit>0){INCOME.push({id:uid(),amount:r.credit,date:r.date,source:'Other',account,note:r.desc});addedI++;} if(r.debit>0){EXPENSES.push({id:uid(),amount:r.debit,date:r.date,category:'other',mode,account,note:r.desc,tag:'Imported',recurring:false});addedE++;} }
+  save.income(); save.expenses(); pendingStatementRows=[]; closeModal('mStatement'); renderMoney(); renderExpenses(); renderDashboard(); renderReports(); toast('Imported '+addedI+' income and '+addedE+' expenses; skipped '+dups+' duplicates.');
 }
 
 /* =====================================================================================
@@ -3303,6 +3392,10 @@ function wire(){
   $('#fileImport').addEventListener('change', e => { if(e.target.files[0]) handleImportFile(e.target.files[0]); e.target.value = ''; });
   $('#btnImportConfirm').onclick = applyImport;
   $('#btnImportMerge').onclick = mergeImport;
+  $('#btnStatementImport').onclick = () => { renderStatementSelectors(); $('#statementFile').click(); };
+  $('#stmtAccount').addEventListener('change', () => { if(pendingStatementRows.length){ const acc=$('#stmtAccount').value; const dup=pendingStatementRows.filter(x=>statementDuplicate(x,acc)).length; $('#statementSummary').innerHTML='<b>'+pendingStatementRows.length+' transactions detected.</b> '+pendingStatementRows.filter(x=>x.credit>0).length+' income · '+pendingStatementRows.filter(x=>x.debit>0).length+' expenses · '+dup+' likely duplicates will be skipped.'; } });
+  $('#statementFile').addEventListener('change',e=>{if(e.target.files[0])handleStatementFile(e.target.files[0]);e.target.value='';});
+  $('#btnStatementConfirm').onclick=confirmStatementImport;
   $('#btnClear').onclick = () => { $('#wipeConfirm').value = ''; $('#btnWipeConfirm').disabled = true; openModal('mWipe'); };
   $('#wipeConfirm').addEventListener('input', e => { $('#btnWipeConfirm').disabled = e.target.value.trim() !== 'DELETE'; });
   $('#btnWipeConfirm').onclick = wipeAll;
@@ -3317,6 +3410,7 @@ function bootUI(){
   if($('#demoModeBanner')) $('#demoModeBanner').style.display = SETTINGS.demoMode ? 'flex' : 'none';
 
   refreshSelectors();
+  renderStatementSelectors();
   $('#exDate').value = iso(today());
   $('#incDate').value = iso(today());
   $('#inpIncome').value = n(SETTINGS.monthlyIncome) || '';
