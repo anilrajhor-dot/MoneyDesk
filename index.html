@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MoneyDesk — Personal Finance Workbench</title>
+<title>MoneyDesk v3.2 — Personal Finance Workbench</title>
 
 <!-- ==== FONTS: Poppins for headings/UI, IBM Plex Mono for tabular figures ==== -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -237,8 +237,8 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
 .meter .bar{width:64px}
 
 /* Mobile bottom tab bar */
-.tabbar{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);z-index:50}
-.tabbar button{flex:1;background:none;border:0;padding:8px 2px 10px;font-size:9.5px;color:var(--muted);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px}
+.tabbar{display:none;overflow-x:auto;position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);z-index:50}
+.tabbar button{flex:0 0 76px;background:none;border:0;padding:8px 2px 10px;font-size:9.5px;color:var(--muted);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px}
 .tabbar button .ic{font-size:17px}
 .tabbar button.active{color:var(--ink);font-weight:600}
 .tabbar button.active .ic{filter:drop-shadow(0 3px 0 var(--gold))}
@@ -262,16 +262,18 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
       <div class="logo">₹</div>
       <div>
         <h1 id="appName">MoneyDesk</h1>
-        <p>Personal Finance Workbench · <b>v3.0</b></p>
+        <p>Personal Finance Workbench · <b>v3.2</b></p>
       </div>
     </div>
     <nav class="nav" id="navMain">
       <button class="navbtn active" data-view="dashboard"><span class="ic">◈</span> Dashboard</button>
       <button class="navbtn" data-view="expenses"><span class="ic">▤</span> Expenses</button>
+      <button class="navbtn" data-view="money"><span class="ic">₹</span> Income &amp; Accounts</button>
       <button class="navbtn" data-view="networth"><span class="ic">◆</span> Net Worth</button>
       <button class="navbtn" data-view="loans"><span class="ic">◍</span> Loans &amp; EMI</button>
       <button class="navbtn" data-view="tax"><span class="ic">§</span> Tax</button>
       <button class="navbtn" data-view="goals"><span class="ic">◎</span> Goals</button>
+      <button class="navbtn" data-view="reports"><span class="ic">▥</span> Reports</button>
     </nav>
     <div class="side-foot">
       <button class="btn ghost sm" id="btnData">Data &amp; backup</button>
@@ -371,11 +373,12 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
           <button class="btn ghost sm" id="btnManageCats">Manage categories &amp; budgets</button>
         </div>
         <div id="quickAdd" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px"></div>
-        <div class="grid" style="grid-template-columns:repeat(6,minmax(0,1fr));gap:12px">
+        <div class="grid" style="grid-template-columns:repeat(7,minmax(0,1fr));gap:12px">
           <div class="field"><label for="exAmt">Amount (₹)</label><input type="number" id="exAmt" min="0" step="1" placeholder="0"><div class="err" id="errExAmt"></div></div>
           <div class="field"><label for="exDate">Date</label><input type="date" id="exDate"></div>
           <div class="field"><label for="exCat">Category</label><select id="exCat"></select></div>
           <div class="field"><label for="exMode">Payment mode</label><select id="exMode"></select></div>
+          <div class="field"><label for="exAccount">Account</label><select id="exAccount"></select></div>
           <div class="field"><label for="exNote">Note</label><input type="text" id="exNote" placeholder="What was it for?"></div>
           <div class="field"><label for="exTag">Tag (optional)</label><input type="text" id="exTag" placeholder="e.g. office"></div>
         </div>
@@ -443,6 +446,45 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
           <span class="kpi-sub num" id="filterTotal"></span>
         </div>
       </div>
+    </section>
+
+    <!-- ============================================================
+         VIEW: INCOME & ACCOUNTS
+         ============================================================ -->
+    <section class="view" id="view-money">
+      <div class="grid g4" style="margin-bottom:16px">
+        <div class="kpi acc-green"><div class="kpi-label">Income this month</div><div class="kpi-value" id="mIncome">₹0</div><div class="kpi-sub" id="mIncomeSub">Recorded income</div></div>
+        <div class="kpi"><div class="kpi-label">Accounts</div><div class="kpi-value" id="mAccountCount">0</div><div class="kpi-sub">Accounts/wallets</div></div>
+        <div class="kpi acc-rust"><div class="kpi-label">Credit card balances</div><div class="kpi-value" id="mCreditBal">₹0</div><div class="kpi-sub">Manual current balances</div></div>
+        <div class="kpi"><div class="kpi-label">Net cash flow</div><div class="kpi-value" id="mNetFlow">₹0</div><div class="kpi-sub">Income minus expenses</div></div>
+      </div>
+      <div class="grid g2">
+        <div class="card">
+          <div class="card-h"><h3>Add income</h3><span class="kpi-sub">Salary, pension, rent, interest and other receipts</span></div>
+          <div class="grid g2" style="gap:12px">
+            <div class="field"><label for="incAmt">Amount (₹)</label><input type="number" id="incAmt" min="0" step="100" placeholder="0"></div>
+            <div class="field"><label for="incDate">Date</label><input type="date" id="incDate"></div>
+            <div class="field"><label for="incSource">Source</label><select id="incSource"></select></div>
+            <div class="field"><label for="incAccount">Received in</label><select id="incAccount"></select></div>
+            <div class="field" style="grid-column:span 2"><label for="incNote">Note</label><input id="incNote" placeholder="e.g. August pension"></div>
+          </div>
+          <button class="btn" id="btnAddIncome" style="width:100%;margin-top:14px">Add income</button>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>Add account</h3><span class="kpi-sub">Enter the current balance for monitoring</span></div>
+          <div class="grid g2" style="gap:12px">
+            <div class="field"><label for="accName">Account name</label><input id="accName" placeholder="e.g. SBI Savings"></div>
+            <div class="field"><label for="accBalance">Current balance (₹)</label><input type="number" id="accBalance" step="100" placeholder="0"></div>
+          </div>
+          <div class="field" style="margin-top:12px"><label for="accType">Type</label><select id="accType"></select></div>
+          <button class="btn" id="btnAddAccount" style="width:100%;margin-top:14px">Add account</button>
+        </div>
+      </div>
+      <div class="grid g2" style="margin-top:16px">
+        <div class="card"><div class="card-h"><h3>Your accounts</h3><span class="kpi-sub">Update balances as required</span></div><div class="tablewrap"><table id="tblAccounts"></table></div></div>
+        <div class="card"><div class="card-h"><h3>Income history</h3><span class="kpi-sub">Current financial year</span></div><div class="tablewrap"><table id="tblIncome"></table></div></div>
+      </div>
+      <div class="note" style="margin-top:14px">Account balances are user-entered current balances. Adding an income or expense does not automatically change a bank balance yet; this keeps the module safe for users who reconcile balances manually.</div>
     </section>
 
     <!-- ============================================================
@@ -563,6 +605,34 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
     </section>
 
     <!-- ============================================================
+         VIEW: REPORTS
+         ============================================================ -->
+    <section class="view" id="view-reports">
+      <div class="grid g4" style="margin-bottom:16px">
+        <div class="kpi acc-green"><div class="kpi-label">Income this month</div><div class="kpi-value" id="rpIncome">₹0</div><div class="kpi-sub">Recorded income</div></div>
+        <div class="kpi acc-rust"><div class="kpi-label">Expenses this month</div><div class="kpi-value" id="rpExpense">₹0</div><div class="kpi-sub">Recorded spending</div></div>
+        <div class="kpi"><div class="kpi-label">Monthly surplus</div><div class="kpi-value" id="rpSurplus">₹0</div><div class="kpi-sub">Income less expenses</div></div>
+        <div class="kpi acc-green"><div class="kpi-label">Net worth</div><div class="kpi-value" id="rpNetWorth">₹0</div><div class="kpi-sub">Current position</div></div>
+      </div>
+      <div class="card">
+        <div class="card-h"><h3>Financial reports</h3><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost sm" id="btnPrintReport">Print report</button><button class="btn sm" id="btnReportCsv">Export report CSV</button></div></div>
+        <div class="seg" id="segReportPeriod"><button class="on" data-period="month">This month</button><button data-period="fy">Current FY</button><button data-period="all">All time</button></div>
+      </div>
+      <div class="grid g2" style="margin-top:16px">
+        <div class="card"><div class="card-h"><h3>Income vs expenses</h3></div><div class="chartbox"><canvas id="chReportCash"></canvas></div></div>
+        <div class="card"><div class="card-h"><h3>Expense categories</h3></div><div class="chartbox"><canvas id="chReportCat"></canvas></div></div>
+      </div>
+      <div class="grid g2" style="margin-top:16px">
+        <div class="card"><div class="card-h"><h3>Income summary</h3></div><div class="tablewrap"><table id="tblReportIncome"></table></div></div>
+        <div class="card"><div class="card-h"><h3>Expense summary</h3></div><div class="tablewrap"><table id="tblReportExpense"></table></div></div>
+      </div>
+      <div class="grid g2" style="margin-top:16px">
+        <div class="card"><div class="card-h"><h3>Loan position</h3></div><div class="tablewrap"><table id="tblReportLoans"></table></div></div>
+        <div class="card"><div class="card-h"><h3>Balance sheet snapshot</h3></div><div class="tablewrap"><table id="tblReportNW"></table></div></div>
+      </div>
+    </section>
+
+    <!-- ============================================================
          VIEW: TAX
          ============================================================ -->
     <section class="view" id="view-tax">
@@ -657,7 +727,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
         <div class="card"><div class="card-h"><h3>Slab-wise breakdown — new regime</h3></div><div class="tablewrap"><table id="tblSlabNew"></table></div></div>
       </div>
 
-      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v3.0</div>
+      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v3.2</div>
 
       <div class="disclaimer">This tool provides estimates for planning purposes only. It is not tax, investment, or financial advice. Verify with a qualified chartered accountant or financial adviser before acting on these numbers.</div>
     </section>
@@ -741,7 +811,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
         <div class="grid g3" id="goalCards"></div>
       </div>
 
-      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v3.0</div>
+      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v3.2</div>
 
       <div class="disclaimer">This tool provides estimates for planning purposes only. It is not tax, investment, or financial advice. Verify with a qualified chartered accountant or financial adviser before acting on these numbers.</div>
     </section>
@@ -754,15 +824,16 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
 <nav class="tabbar" id="navTabs">
   <button class="active" data-view="dashboard"><span class="ic">◈</span>Dashboard</button>
   <button data-view="expenses"><span class="ic">▤</span>Expenses</button>
+  <button data-view="money"><span class="ic">₹</span>Money</button>
   <button data-view="networth"><span class="ic">◆</span>Net Worth</button>
   <button data-view="loans"><span class="ic">◍</span>Loans</button>
   <button data-view="tax"><span class="ic">§</span>Tax</button>
-  <button data-view="goals"><span class="ic">◎</span>Goals</button>
+  <button data-view="goals"><span class="ic">◎</span>Goals</button><button data-view="reports"><span class="ic">▥</span>Reports</button>
 </nav>
 
 <!-- ===================== MODALS ===================== -->
 <div class="modal" id="mHelp"><div class="modal-box">
-  <h3>MoneyDesk v3.0 — Help</h3>
+  <h3>MoneyDesk v3.2 — Help</h3>
   <p class="kpi-sub">A quick guide to the main features.</p>
   <div class="card" style="margin-top:14px;box-shadow:none">
     <b>Dashboard</b><p class="kpi-sub">Shows spending, loans, tax estimate, goals, net worth and financial-health observations.</p>
@@ -828,8 +899,12 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
   <div class="grid g2" style="gap:12px;margin-top:14px">
     <div class="field"><label for="slName">Loan name</label><input type="text" id="slName" placeholder="e.g. Home loan — HDFC"></div>
     <div class="field"><label for="slType">Type</label><select id="slType"><option>Home</option><option>Car</option><option>Personal</option><option>Education</option><option>Other</option></select></div>
-    <div class="field" style="grid-column:span 2"><label for="slStart">First EMI date</label><input type="date" id="slStart"></div>
+    <div class="field"><label for="slStart">First EMI date</label><input type="date" id="slStart"></div>
+    <div class="field"><label for="slActual">Current actual outstanding (₹)</label><input type="number" id="slActual" min="0" step="1000" placeholder="Optional"></div>
+    <div class="field"><label for="slDue">EMI due day</label><input type="number" id="slDue" min="1" max="31" step="1" value="1"></div>
+    <div class="field"><label for="slLastPaid">Last EMI paid date</label><input type="date" id="slLastPaid"></div>
   </div>
+  <div class="note" style="margin-top:12px">If actual outstanding is entered, MoneyDesk will show it alongside the scheduled outstanding. This helps reconcile the app with the lender statement.</div>
   <div style="display:flex;gap:10px;margin-top:18px;justify-content:flex-end"><button class="btn ghost" data-close>Cancel</button><button class="btn" id="btnLoanConfirm">Save loan</button></div>
 </div></div>
 
@@ -862,7 +937,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
 <script>
 "use strict";
 /* =====================================================================================
-   MoneyDesk — Personal Finance Workbench
+   MoneyDesk v3.2 — Personal Finance Workbench
    Single-file, offline, localStorage-only. No network calls except the two CDN tags.
    ===================================================================================== */
 
@@ -982,9 +1057,9 @@ const TAX_CONFIG_DEFAULT = {
    Each module gets its own localStorage key. If one key is corrupted we reset only that
    key and keep the rest of the app alive, rather than crashing on load.
    ===================================================================================== */
-const SCHEMA_VERSION = 2;
+const SCHEMA_VERSION = 4;
 const K = {
-  meta:'md.meta', settings:'md.settings', expenses:'md.expenses', categories:'md.categories',
+  meta:'md.meta', settings:'md.settings', expenses:'md.expenses', income:'md.income', accounts:'md.accounts', categories:'md.categories',
   budgets:'md.budgets', loans:'md.loans', goals:'md.goals', assets:'md.assets', liabilities:'md.liabilities', tax:'md.tax', taxcfg:'md.taxcfg'
 };
 
@@ -1043,6 +1118,8 @@ const DEFAULT_CATEGORIES = [
 const PAY_MODES = ['Cash','UPI','Credit Card','Debit Card','Net Banking'];
 
 const DEFAULT_SETTINGS = { theme:'light', monthlyIncome:0, appName:'MoneyDesk' };
+const INCOME_SOURCES = ['Salary','Pension','Rent','Interest','Dividend','Business','Other'];
+const ACCOUNT_TYPES = ['Savings account','Current account','Cash','Credit card','Investment account','Other'];
 const DEFAULT_TAXPROFILE = {
   fy:null, age:'below60', gross:1500000, other:0, hp:0, cg:0,
   d80C:150000, d80CCD1B:0, d80Dself:0, d80Dpar:0, d80Dpar60:'no', d80E:0, d80G:0, d80TT:0, d24b:0, dPT:0,
@@ -1050,13 +1127,15 @@ const DEFAULT_TAXPROFILE = {
 };
 
 // ---- Live application state -----------------------------------------------------
-let META, SETTINGS, EXPENSES, CATEGORIES, BUDGETS, LOANS, GOALS, ASSETS, LIABILITIES, TAXP, TAX_CONFIG;
+let META, SETTINGS, EXPENSES, INCOME, ACCOUNTS, CATEGORIES, BUDGETS, LOANS, GOALS, ASSETS, LIABILITIES, TAXP, TAX_CONFIG;
 
 function loadAll(){
   META       = readKey(K.meta,       {version:SCHEMA_VERSION, lastBackup:null, created:new Date().toISOString()});
   META       = migrate(META);
   SETTINGS   = Object.assign({}, DEFAULT_SETTINGS, readKey(K.settings, {}));
   EXPENSES   = readKey(K.expenses,   []);
+  INCOME     = readKey(K.income,     []);
+  ACCOUNTS   = readKey(K.accounts,   []);
   CATEGORIES = readKey(K.categories, DEFAULT_CATEGORIES);
   BUDGETS    = readKey(K.budgets,    {});
   LOANS      = readKey(K.loans,      []);
@@ -1070,6 +1149,8 @@ function loadAll(){
   if(!TAX_CONFIG['2026-27']) TAX_CONFIG['2026-27'] = structuredCloneSafe(TAX_CONFIG_DEFAULT['2026-27']);
   TAX_CONFIG.meta.defaultFY = TAX_CONFIG.meta.defaultFY || '2026-27';
   if(!Array.isArray(EXPENSES)) EXPENSES = [];
+  if(!Array.isArray(INCOME)) INCOME = [];
+  if(!Array.isArray(ACCOUNTS)) ACCOUNTS = [];
   if(!Array.isArray(CATEGORIES) || !CATEGORIES.length) CATEGORIES = structuredCloneSafe(DEFAULT_CATEGORIES);
   if(!Array.isArray(LOANS)) LOANS = [];
   if(!Array.isArray(GOALS)) GOALS = [];
@@ -1085,6 +1166,8 @@ function migrate(meta){
   if(!meta.version) meta.version = 1;
   // Example of how a future migration would look:
   if(meta.version < 2) meta.version = 2;
+  if(meta.version < 3) meta.version = 3;
+  if(meta.version < 4) meta.version = 4;
   meta.version = SCHEMA_VERSION;
   return meta;
 }
@@ -1092,6 +1175,8 @@ function migrate(meta){
 const save = {
   settings(){ writeKey(K.settings, SETTINGS); },
   expenses(){ writeKey(K.expenses, EXPENSES); updateStorageMeter(); },
+  income(){ writeKey(K.income, INCOME); updateStorageMeter(); },
+  accounts(){ writeKey(K.accounts, ACCOUNTS); updateStorageMeter(); },
   categories(){ writeKey(K.categories, CATEGORIES); },
   budgets(){ writeKey(K.budgets, BUDGETS); },
   loans(){ writeKey(K.loans, LOANS); },
@@ -1307,7 +1392,7 @@ function addExpense(){
   const date = $('#exDate').value || iso(today());
   EXPENSES.push({
     id:uid(), amount:Math.round(amt*100)/100, date:date, category:$('#exCat').value || 'other',
-    mode:$('#exMode').value || 'Cash', note:$('#exNote').value.trim(), tag:$('#exTag').value.trim(),
+    mode:$('#exMode').value || 'Cash', account:$('#exAccount').value || '', note:$('#exNote').value.trim(), tag:$('#exTag').value.trim(),
     recurring:$('#exRecur').checked
   });
   save.expenses();
@@ -1803,8 +1888,10 @@ function loanStatus(loan){
   if(now.getDate() >= start.getDate()) paid += 1;
   paid = Math.max(0, Math.min(paid, s.rows.length));
   const row = paid > 0 ? s.rows[paid-1] : null;
-  const outstanding = row ? row.closing : n(loan.amount);
-  return { paid, remaining: Math.max(0, s.rows.length - paid), outstanding,
+  const scheduledOutstanding = row ? row.closing : n(loan.amount);
+  const actualOutstanding = loan.actualOutstanding !== null && loan.actualOutstanding !== undefined && n(loan.actualOutstanding) > 0 ? n(loan.actualOutstanding) : null;
+  const outstanding = actualOutstanding !== null ? actualOutstanding : scheduledOutstanding;
+  return { paid, remaining: Math.max(0, s.rows.length - paid), outstanding, scheduledOutstanding, actualOutstanding,
            principalRepaid: n(loan.amount) - outstanding, emi: s.emi, total: s.rows.length,
            totalInterest: s.totalInterest };
 }
@@ -1831,6 +1918,8 @@ function renderLoans(){
           '<tr><td class="dim">EMIs paid</td><td class="r num">'+st.paid+' of '+st.total+'</td></tr>'+
           '<tr><td class="dim">EMIs remaining</td><td class="r num">'+st.remaining+'</td></tr>'+
           '<tr><td class="dim">Principal repaid</td><td class="r num good">'+inr(st.principalRepaid)+'</td></tr>'+
+          '<tr><td class="dim">Scheduled outstanding</td><td class="r num">'+inr(st.scheduledOutstanding)+'</td></tr>'+
+          (st.actualOutstanding!==null ? '<tr><td class="dim">Actual outstanding</td><td class="r num">'+inr(st.actualOutstanding)+'</td></tr><tr><td class="dim">Difference</td><td class="r num '+(Math.abs(st.actualOutstanding-st.scheduledOutstanding)>1000?'bad':'good')+'">'+inr(st.actualOutstanding-st.scheduledOutstanding)+'</td></tr>' : '')+
         '</tbody></table>'+
         '<div style="display:flex;gap:8px;margin-top:12px">'+
           '<button class="btn ghost sm" data-loadloan="'+l.id+'">Load into calculator</button>'+
@@ -1858,6 +1947,7 @@ function renderLoans(){
 
 // ---- Loan comparison ---------------------------------------------------------------------
 let cmpSelection = [];
+let reportPeriod = 'month';
 function renderCompare(){
   const picker = $('#cmpPicker'); picker.innerHTML = '';
   if(LOANS.length < 2){
@@ -2371,6 +2461,28 @@ function bestTaxNow(){
   }catch(e){ return { tax:0, regime:'new' }; }
 }
 
+function monthIncome(d){ const mk=monthKey(d); return INCOME.filter(x=>monthKey(parseISO(x.date))===mk); }
+function fyIncome(d){ const r=fyRange(fyOf(d)); return INCOME.filter(x=>{const dt=parseISO(x.date); return dt>=r.from&&dt<=r.to;}); }
+function incomeSum(list){ return list.reduce((a,x)=>a+n(x.amount),0); }
+function refreshMoneySelectors(){
+  fillSelect('#exAccount', ACCOUNTS.map(a=>({label:a.name,value:a.id})), 'No account');
+  fillSelect('#incAccount', ACCOUNTS.map(a=>({label:a.name,value:a.id})), 'No account');
+  fillSelect('#incSource', INCOME_SOURCES.map(x=>({label:x,value:x})));
+  fillSelect('#accType', ACCOUNT_TYPES.map(x=>({label:x,value:x})));
+}
+function renderMoney(){
+  refreshMoneySelectors();
+  const mi=monthIncome(today()), me=monthExpenses(today());
+  const inc=incomeSum(mi), exp=sum(me), flow=inc-exp;
+  $('#mIncome').textContent=inr(inc); $('#mIncomeSub').textContent=mi.length+' recorded entr'+(mi.length===1?'y':'ies');
+  $('#mAccountCount').textContent=ACCOUNTS.length;
+  $('#mCreditBal').textContent=inr(ACCOUNTS.filter(a=>a.type==='Credit card').reduce((s,a)=>s+Math.max(0,n(a.balance)),0));
+  $('#mNetFlow').textContent=inr(flow); $('#mNetFlow').className='kpi-value '+(flow<0?'bad':'good');
+  $('#tblAccounts').innerHTML='<thead><tr><th>Name</th><th>Type</th><th class="r">Balance</th><th></th></tr></thead><tbody>'+(ACCOUNTS.length?ACCOUNTS.map(a=>'<tr><td>'+esc(a.name)+'</td><td>'+esc(a.type)+'</td><td class="r num '+(a.type==='Credit card'?'bad':'good')+'">'+inr(a.balance)+'</td><td class="r"><button class="linkbtn" data-delacc="'+a.id+'">Delete</button></td></tr>').join(''):'<tr><td colspan="4"><div class="empty">No accounts yet. Add your main bank, cash and credit-card accounts.</div></td></tr>')+'</tbody>';
+  const rows=fyIncome(today()).slice().sort((a,b)=>b.date.localeCompare(a.date));
+  $('#tblIncome').innerHTML='<thead><tr><th>Date</th><th>Source</th><th>Account</th><th>Note</th><th class="r">Amount</th><th></th></tr></thead><tbody>'+(rows.length?rows.slice(0,50).map(x=>'<tr><td>'+esc(x.date)+'</td><td>'+esc(x.source)+'</td><td>'+esc((ACCOUNTS.find(a=>a.id===x.account)||{}).name||'—')+'</td><td>'+esc(x.note||'')+'</td><td class="r num good">'+inr(x.amount)+'</td><td class="r"><button class="linkbtn" data-delincome="'+x.id+'">Delete</button></td></tr>').join(''):'<tr><td colspan="6"><div class="empty">No income recorded for the current financial year.</div></td></tr>')+'</tbody>';
+}
+
 function netWorthTotals(){
   const assets = ASSETS.reduce((a,x)=>a+n(x.value),0);
   const manualLiabs = LIABILITIES.reduce((a,x)=>a+n(x.value),0);
@@ -2404,6 +2516,8 @@ function renderHealthScore(d){
 
 function renderDashboard(){
   const spendThis = sum(monthExpenses(today()));
+  const recordedIncome = incomeSum(monthIncome(today()));
+  const income = recordedIncome > 0 ? recordedIncome : n(SETTINGS.monthlyIncome);
   const totalBudget = CATEGORIES.reduce((a,c) => a + n(BUDGETS[c.id]), 0);
   setKPI('#kSpend', spendThis);
   $('#kSpendSub').textContent = totalBudget > 0
@@ -2431,7 +2545,6 @@ function renderDashboard(){
   $('#kLiabilitiesSub').textContent = LIABILITIES.length + ' item' + (LIABILITIES.length===1?'':'s');
 
   // Cash flow
-  const income = n(SETTINGS.monthlyIncome);
   const surplus = income - lt.emi - spendThis;
   $('#cashflowBody').innerHTML =
     '<tr><td class="dim">Take-home income</td><td class="r num">'+inr(income)+'</td></tr>'+
@@ -2516,6 +2629,47 @@ function renderHealth(d){
 }
 
 /* =====================================================================================
+   REPORTS
+   ===================================================================================== */
+function reportLists(){
+  let ex=EXPENSES.slice(), inc=INCOME.slice();
+  if(reportPeriod==='month'){
+    const mk=monthKey(today()); ex=ex.filter(e=>monthKey(parseISO(e.date))===mk); inc=inc.filter(e=>monthKey(parseISO(e.date))===mk);
+  } else if(reportPeriod==='fy'){
+    const r=fyRange(today()); ex=ex.filter(e=>parseISO(e.date)>=r.from && parseISO(e.date)<=r.to); inc=inc.filter(e=>parseISO(e.date)>=r.from && parseISO(e.date)<=r.to);
+  }
+  return {ex,inc};
+}
+function renderReports(){
+  const {ex,inc}=reportLists();
+  const income=sum(inc.map(x=>({amount:x.amount}))), expense=sum(ex), surplus=income-expense, nw=netWorthTotals();
+  setKPI('#rpIncome',income,inrShort); setKPI('#rpExpense',expense,inrShort); setKPI('#rpSurplus',surplus,inrShort); setKPI('#rpNetWorth',nw.net,inrShort);
+  const it={}; inc.forEach(x=>{const k=x.source||'Other';it[k]=(it[k]||0)+n(x.amount)});
+  const et={}; ex.forEach(x=>{const k=catById(x.category).name;et[k]=(et[k]||0)+n(x.amount)});
+  $('#tblReportIncome').innerHTML='<thead><tr><th>Source</th><th class="r">Amount</th><th class="r">Share</th></tr></thead><tbody>'+Object.entries(it).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<tr><td>'+esc(k)+'</td><td class="r num">'+inr(v)+'</td><td class="r num">'+pct(income?v/income*100:0,1)+'</td></tr>').join('')+'</tbody>';
+  $('#tblReportExpense').innerHTML='<thead><tr><th>Category</th><th class="r">Amount</th><th class="r">Share</th></tr></thead><tbody>'+Object.entries(et).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<tr><td>'+esc(k)+'</td><td class="r num">'+inr(v)+'</td><td class="r num">'+pct(expense?v/expense*100:0,1)+'</td></tr>').join('')+'</tbody>';
+  $('#tblReportLoans').innerHTML='<thead><tr><th>Loan</th><th class="r">Scheduled</th><th class="r">Actual</th><th class="r">EMI</th></tr></thead><tbody>'+LOANS.map(l=>{const st=loanStatus(l);return '<tr><td>'+esc(l.name)+'</td><td class="r num">'+inr(st.scheduledOutstanding)+'</td><td class="r num">'+(st.actualOutstanding===null?'—':inr(st.actualOutstanding))+'</td><td class="r num">'+inr(st.emi)+'</td></tr>';}).join('')+'</tbody>';
+  $('#tblReportNW').innerHTML='<tbody><tr><td>Total assets</td><td class="r num good">'+inr(nw.assets)+'</td></tr><tr><td>Total liabilities</td><td class="r num bad">−'+inr(nw.liabilities)+'</td></tr><tr><td><b>Net worth</b></td><td class="r num"><b>'+inr(nw.net)+'</b></td></tr></tbody>';
+  const labels=Object.keys(et).sort((a,b)=>et[b]-et[a]).slice(0,8), vals=labels.map(k=>et[k]);
+  drawChart('chReportCat',{type:'doughnut',data:{labels,datasets:[{data:vals,backgroundColor:labels.map((_,i)=>`hsl(${40+i*35} 70% ${45+i*2}%)`)}]},options:{plugins:{legend:{position:'bottom'}}}});
+  drawChart('chReportCash',{type:'bar',data:{labels:['Income','Expenses','Surplus'],datasets:[{label:'Amount',data:[income,expense,Math.max(0,surplus)],backgroundColor:[css('--green'),css('--rust'),css('--gold')]}]},options:{scales:{y:{beginAtZero:true,ticks:{callback:rupeeTick}}},plugins:{legend:{display:false}}}});
+}
+function reportCsv(){
+  const {ex,inc}=reportLists(); const nw=netWorthTotals();
+  const rows=[['MoneyDesk v3.2 report',reportPeriod],[],['Income','Amount']];
+  const it={};inc.forEach(x=>it[x.source||'Other']=(it[x.source||'Other']||0)+n(x.amount)); Object.entries(it).forEach(([k,v])=>rows.push([k,v.toFixed(2)]));
+  rows.push([],['Expenses','Amount']); const et={};ex.forEach(x=>{const k=catById(x.category).name;et[k]=(et[k]||0)+n(x.amount)}); Object.entries(et).forEach(([k,v])=>rows.push([k,v.toFixed(2)]));
+  rows.push([],['Balance sheet','Amount'],['Assets',nw.assets.toFixed(2)],['Liabilities',nw.liabilities.toFixed(2)],['Net worth',nw.net.toFixed(2)]);
+  download('moneydesk-report-'+iso(today())+'.csv',toCSV(rows),'text/csv;charset=utf-8'); toast('Report CSV downloaded.');
+}
+function printReport(){
+  renderReports();
+  const w=window.open('','_blank'); if(!w) return toast('Allow pop-ups to print the report.');
+  w.document.write('<html><head><title>MoneyDesk Financial Report</title><style>body{font-family:Arial,sans-serif;padding:28px;color:#111}h1{margin:0 0 6px}h2{margin-top:24px;border-bottom:1px solid #ccc;padding-bottom:5px}table{border-collapse:collapse;width:100%;margin:10px 0 20px}td,th{padding:7px;border-bottom:1px solid #ddd;text-align:left}th{background:#f3f3f3}.r{text-align:right}.num{font-variant-numeric:tabular-nums}</style></head><body><h1>MoneyDesk Financial Report</h1><div>Period: '+esc(reportPeriod)+' · Generated: '+prettyDate(iso(today()))+'</div><h2>Summary</h2><table>'+$('#tblReportNW').innerHTML+'</table><h2>Income</h2><table>'+$('#tblReportIncome').innerHTML+'</table><h2>Expenses</h2><table>'+$('#tblReportExpense').innerHTML+'</table><h2>Loans</h2><table>'+$('#tblReportLoans').innerHTML+'</table><p>Developed by Anil Sharma · Former General Manager, Central Bank of India</p></body></html>');
+  w.document.close(); w.focus(); setTimeout(()=>w.print(),300);
+}
+
+/* =====================================================================================
    SECTION 9 — DATA MANAGEMENT
    ===================================================================================== */
 function storageBytes(){
@@ -2562,7 +2716,7 @@ function exportAll(){
   const payload = {
     app:'MoneyDesk', schemaVersion:SCHEMA_VERSION, exportedAt:new Date().toISOString(),
     settings:SETTINGS, expenses:EXPENSES, categories:CATEGORIES, budgets:BUDGETS,
-    loans:LOANS, goals:GOALS, assets:ASSETS, liabilities:LIABILITIES, taxProfile:TAXP, taxConfig:TAX_CONFIG
+    loans:LOANS, goals:GOALS, assets:ASSETS, liabilities:LIABILITIES, income:INCOME, accounts:ACCOUNTS, taxProfile:TAXP, taxConfig:TAX_CONFIG
   };
   download('moneydesk-backup-' + iso(today()) + '.json', JSON.stringify(payload, null, 2), 'application/json');
   META.lastBackup = new Date().toISOString(); save.meta(); renderBackupBadge();
@@ -2570,9 +2724,9 @@ function exportAll(){
 }
 function exportExpensesCSV(){
   if(!EXPENSES.length) return void toast('No expenses to export yet.');
-  const rows = [['Date','Category','Note','Tag','Payment mode','Amount (INR)','Recurring']];
+  const rows = [['Date','Category','Note','Tag','Payment mode','Account','Amount (INR)','Recurring']];
   EXPENSES.slice().sort((a,b) => a.date.localeCompare(b.date)).forEach(e =>
-    rows.push([e.date, catById(e.category).name, e.note||'', e.tag||'', e.mode, n(e.amount).toFixed(2), e.recurring?'Yes':'No']));
+    rows.push([e.date, catById(e.category).name, e.note||'', e.tag||'', e.mode, (ACCOUNTS.find(a=>a.id===e.account)||{}).name||'', n(e.amount).toFixed(2), e.recurring?'Yes':'No']));
   download('moneydesk-expenses-' + iso(today()) + '.csv', toCSV(rows), 'text/csv;charset=utf-8');
   toast('CSV downloaded.');
 }
@@ -2585,7 +2739,7 @@ function handleImportFile(file){
       if(!data || data.app !== 'MoneyDesk') throw new Error('not a MoneyDesk backup');
       pendingImport = data;
       $('#importSummary').innerHTML = 'This backup holds <b>' + (data.expenses||[]).length + ' expenses</b>, <b>' +
-        (data.loans||[]).length + ' loans</b>, <b>' + (data.assets||[]).length + ' assets</b>, <b>' + (data.liabilities||[]).length + ' liabilities</b> and <b>' + (data.goals||[]).length + ' goals</b>, exported on ' +
+        (data.loans||[]).length + ' loans</b>, <b>' + (data.income||[]).length + ' income entries</b>, <b>' + (data.accounts||[]).length + ' accounts</b>, <b>' + (data.assets||[]).length + ' assets</b>, <b>' + (data.liabilities||[]).length + ' liabilities</b> and <b>' + (data.goals||[]).length + ' goals</b>, exported on ' +
         prettyDate(iso(new Date(data.exportedAt || Date.now()))) + '.';
       openModal('mImport');
     }catch(e){
@@ -2602,6 +2756,8 @@ function applyImport(){
   CATEGORIES = Array.isArray(d.categories) && d.categories.length ? d.categories : structuredCloneSafe(DEFAULT_CATEGORIES);
   BUDGETS    = d.budgets || {};
   LOANS      = Array.isArray(d.loans) ? d.loans : [];
+  INCOME     = Array.isArray(d.income) ? d.income : [];
+  ACCOUNTS   = Array.isArray(d.accounts) ? d.accounts : [];
   GOALS      = Array.isArray(d.goals) ? d.goals : [];
   ASSETS     = Array.isArray(d.assets) ? d.assets : [];
   LIABILITIES= Array.isArray(d.liabilities) ? d.liabilities : [];
@@ -2627,16 +2783,18 @@ function syncSeg(sel, attr, value){
 function showView(name){
   $$('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + name));
   $$('#navMain .navbtn, #navTabs button').forEach(b => b.classList.toggle('active', b.dataset.view === name));
-  const titles = {dashboard:'Dashboard', expenses:'Expenses', networth:'Net Worth', loans:'Loans & EMI', tax:'Income tax', goals:'Goals & investments'};
+  const titles = {dashboard:'Dashboard', expenses:'Expenses', money:'Income & Accounts', networth:'Net Worth', loans:'Loans & EMI', tax:'Income tax', goals:'Goals & investments', reports:'Reports'};
   $('#viewTitle').textContent = titles[name] || name;
   window.scrollTo({top:0, behavior: reduceMotion ? 'auto' : 'smooth'});
   // Charts sized while hidden render at zero height, so redraw on entry.
   if(name === 'expenses') renderExpenses();
+  if(name === 'money') renderMoney();
   if(name === 'networth') renderNetWorth();
   if(name === 'loans') renderLoanCalc();
   if(name === 'tax') renderTax();
   if(name === 'goals') renderGoalsView();
   if(name === 'dashboard') renderDashboard();
+  if(name === 'reports') renderReports();
 }
 function applyTheme(){
   const dark = SETTINGS.theme === 'dark';
@@ -2655,6 +2813,19 @@ function wire(){
   $('#btnAddAsset').onclick = () => { const name=$('#nwAssetName').value.trim(), value=n($('#nwAssetValue').value); if(!name || value<=0) return void toast('Enter an asset name and positive value.'); ASSETS.push({id:uid(),name,value,type:$('#nwAssetType').value}); save.assets(); $('#nwAssetName').value=''; $('#nwAssetValue').value=''; renderNetWorth(); renderDashboard(); toast('Asset added.'); };
   $('#btnAddLiability').onclick = () => { const name=$('#nwLiabName').value.trim(), value=n($('#nwLiabValue').value); if(!name || value<=0) return void toast('Enter a liability name and positive value.'); LIABILITIES.push({id:uid(),name,value,type:$('#nwLiabType').value}); save.liabilities(); $('#nwLiabName').value=''; $('#nwLiabValue').value=''; renderNetWorth(); renderDashboard(); toast('Liability added.'); };
   $('#tblNetWorth').addEventListener('click', e => { const b=e.target.closest('[data-nwdel]'); if(!b) return; const kind=b.dataset.nwdel, id=b.dataset.id; if(kind==='Loan') return void toast('Manage saved loan balances in Loans & EMI.'); if(!confirm('Delete this '+kind.toLowerCase()+'?')) return; if(kind==='Asset') ASSETS=ASSETS.filter(x=>x.id!==id); else LIABILITIES=LIABILITIES.filter(x=>x.id!==id); kind==='Asset'?save.assets():save.liabilities(); renderNetWorth(); renderDashboard(); toast(kind+' deleted.'); });
+
+  // Income & accounts
+  $('#btnAddIncome').onclick = () => {
+    const amount=n($('#incAmt').value); if(!(amount>0)) return void toast('Enter a positive income amount.');
+    INCOME.push({id:uid(),amount,date:$('#incDate').value||iso(today()),source:$('#incSource').value||'Other',account:$('#incAccount').value||'',note:$('#incNote').value.trim()});
+    save.income(); $('#incAmt').value=''; $('#incNote').value=''; renderMoney(); renderDashboard(); toast('Income added.');
+  };
+  $('#btnAddAccount').onclick = () => {
+    const name=$('#accName').value.trim(), balance=n($('#accBalance').value); if(!name) return void toast('Enter an account name.');
+    ACCOUNTS.push({id:uid(),name,balance,type:$('#accType').value||ACCOUNT_TYPES[0]}); save.accounts(); $('#accName').value=''; $('#accBalance').value=''; refreshMoneySelectors(); renderMoney(); renderNetWorth(); renderDashboard(); toast('Account added.');
+  };
+  $('#tblAccounts').addEventListener('click',e=>{const b=e.target.closest('[data-delacc]'); if(!b)return; if(!confirm('Delete this account? Existing income/expense records will remain.'))return; ACCOUNTS=ACCOUNTS.filter(a=>a.id!==b.dataset.delacc); save.accounts(); renderMoney(); renderDashboard();});
+  $('#tblIncome').addEventListener('click',e=>{const b=e.target.closest('[data-delincome]'); if(!b)return; if(!confirm('Delete this income entry?'))return; INCOME=INCOME.filter(x=>x.id!==b.dataset.delincome); save.income(); renderMoney(); renderDashboard();});
 
   // Theme
   $('#btnTheme').onclick = () => {
@@ -2731,13 +2902,16 @@ function wire(){
   $('#btnAmortCsv').onclick = downloadAmortCSV;
   $('#btnSaveLoan').onclick = () => {
     if(!validateLoan()) return void toast('Fix the highlighted fields first.');
-    $('#slName').value = ''; $('#slStart').value = iso(today());
+    $('#slName').value = ''; $('#slStart').value = iso(today()); $('#slActual').value = ''; $('#slDue').value = 1; $('#slLastPaid').value = '';
     openModal('mLoan');
   };
   $('#btnLoanConfirm').onclick = () => {
     const {amount, rate, months} = loanInputs();
     LOANS.push({ id:uid(), name:$('#slName').value.trim() || ($('#slType').value + ' loan'), type:$('#slType').value,
-                 amount, rate, months, start:$('#slStart').value || iso(today()) });
+                 amount, rate, months, start:$('#slStart').value || iso(today()),
+                 actualOutstanding: $('#slActual').value.trim()==='' ? null : Math.max(0,n($('#slActual').value)),
+                 emiDueDay: Math.min(31,Math.max(1,Math.round(n($('#slDue').value)||1))),
+                 lastPaid: $('#slLastPaid').value || null });
     save.loans(); closeModal('mLoan'); renderLoans(); renderDashboard(); toast('Loan saved.');
   };
 
@@ -2778,6 +2952,11 @@ function wire(){
     SETTINGS.monthlyIncome = v; save.settings(); renderDashboard();
   });
 
+  // ---- Reports -----------------------------------------------------------------
+  $$('#segReportPeriod button').forEach(b => b.onclick = () => { reportPeriod=b.dataset.period; syncSeg('#segReportPeriod','period',reportPeriod); renderReports(); });
+  $('#btnReportCsv').onclick = reportCsv;
+  $('#btnPrintReport').onclick = printReport;
+
   // ---- Data management ----------------------------------------------------------
   $('#btnData').onclick = () => { updateStorageMeter(); renderBackupBadge(); openModal('mData'); };
   $('#btnQuickBackup').onclick = exportAll;
@@ -2795,11 +2974,12 @@ function wire(){
 function bootUI(){
   applyTheme();
   $('#appName').textContent = SETTINGS.appName || 'MoneyDesk';
-  document.title = (SETTINGS.appName || 'MoneyDesk') + ' — Personal Finance Workbench v3.0';
+  document.title = (SETTINGS.appName || 'MoneyDesk') + ' — Personal Finance Workbench v3.2';
   if($('#fyPill')) $('#fyPill').textContent = TAXP.fy ? 'FY '+TAXP.fy : 'FY 2026-27';
 
   refreshSelectors();
   $('#exDate').value = iso(today());
+  $('#incDate').value = iso(today());
   $('#inpIncome').value = n(SETTINGS.monthlyIncome) || '';
 
   // Tax form
@@ -2816,11 +2996,13 @@ function bootUI(){
 
   materialiseRecurring();
   renderExpenses();
+  renderMoney();
   renderLoanCalc();
   renderLoans();
   renderTax();
   renderGoalsView();
   renderNetWorth();
+  renderReports();
   renderDashboard();
   updateStorageMeter();
 }
