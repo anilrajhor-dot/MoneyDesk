@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MoneyDesk v4.3 — Personal Finance Workbench</title>
+<title>MoneyDesk v4.4 — Personal Finance Workbench</title>
 
 <!-- ==== FONTS: Poppins for headings/UI, IBM Plex Mono for tabular figures ==== -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -306,7 +306,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
     <!-- ===================== TOP BAR ===================== -->
     <header class="topbar">
       <h2 id="viewTitle">Dashboard</h2>
-      <span class="pill" id="appVersionPill" style="font-weight:800;border:2px solid var(--gold);background:var(--gold-soft);color:var(--ink)">MoneyDesk v4.3</span>
+      <span class="pill" id="appVersionPill" style="font-weight:800;border:2px solid var(--gold);background:var(--gold-soft);color:var(--ink)">MoneyDesk v4.4</span>
       <span class="pill" id="fyPill">FY 2026-27</span>
       <div class="meter" title="Browser storage used (limit is about 5 MB)">
         <span>Storage</span>
@@ -388,6 +388,18 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
         <div class="card">
           <div class="card-h"><h3>Financial health</h3></div>
           <div id="healthPanel"></div>
+        </div>
+      </div>
+
+      <div class="grid g2" style="margin-top:16px">
+        <div class="card">
+          <div class="card-h"><h3>Emergency fund</h3><span class="kpi-sub">Liquid funds ÷ monthly spending</span></div>
+          <div class="kpi-value" id="kEmergency">—</div>
+          <div class="kpi-sub" id="kEmergencySub">Add bank/cash balances to assess your cushion.</div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>Financial alerts</h3><span class="kpi-sub">Items worth reviewing</span></div>
+          <div id="financialAlerts"></div>
         </div>
       </div>
     </section>
@@ -691,7 +703,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
       </div>
       <div class="card" style="margin-top:16px;border:2px solid var(--gold);background:var(--soft)">
         <div class="card-h"><h3>🧪 Demo Calculation Tests</h3><button class="btn" id="btnDemoTests">Run Demo Tests</button></div>
-        <div class="note">These tests use the currently loaded dummy dataset. They check known totals, account links, net worth, loan EMI and the tax engine. They do not alter your data.</div><div class="note good" style="margin-top:8px"><b>v4.3 accuracy audit:</b> account references are now checked using the actual transaction field used by the app, and imported demo data is validated before being marked as passed.</div>
+        <div class="note">These tests use the currently loaded dummy dataset. They check known totals, account links, net worth, loan EMI and the tax engine. They do not alter your data.</div><div class="note good" style="margin-top:8px"><b>v4.4 accuracy & data-quality audit:</b> account references are now checked using the actual transaction field used by the app, and imported demo data is validated before being marked as passed.</div>
         <div class="grid g4" style="margin-top:12px">
           <div class="kpi"><div class="kpi-label">Tests passed</div><div class="kpi-value" id="demoPass">0</div></div>
           <div class="kpi acc-rust"><div class="kpi-label">Tests failed</div><div class="kpi-value" id="demoFail">0</div></div>
@@ -811,7 +823,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
         <div class="card"><div class="card-h"><h3>Slab-wise breakdown — new regime</h3></div><div class="tablewrap"><table id="tblSlabNew"></table></div></div>
       </div>
 
-      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v4.3</div>
+      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v4.4</div>
 
       <div class="disclaimer">This tool provides estimates for planning purposes only. It is not tax, investment, or financial advice. Verify with a qualified chartered accountant or financial adviser before acting on these numbers.</div>
     </section>
@@ -895,7 +907,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
         <div class="grid g3" id="goalCards"></div>
       </div>
 
-      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v4.3</div>
+      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v4.4</div>
 
       <div class="disclaimer">This tool provides estimates for planning purposes only. It is not tax, investment, or financial advice. Verify with a qualified chartered accountant or financial adviser before acting on these numbers.</div>
     </section>
@@ -917,7 +929,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
 
 <!-- ===================== MODALS ===================== -->
 <div class="modal" id="mHelp"><div class="modal-box">
-  <h3>MoneyDesk v4.3 — Help</h3>
+  <h3>MoneyDesk v4.4 — Help</h3>
   <p class="kpi-sub">A quick guide to the main features.</p>
   <div class="card" style="margin-top:14px;box-shadow:none">
     <b>Dashboard</b><p class="kpi-sub">Shows spending, loans, tax estimate, goals, net worth and financial-health observations.</p>
@@ -1046,7 +1058,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
 <script>
 "use strict";
 /* =====================================================================================
-   MoneyDesk v4.3 — Personal Finance Workbench
+   MoneyDesk v4.4 — Personal Finance Workbench
    Single-file, offline, localStorage-only. No network calls except the two CDN tags.
    ===================================================================================== */
 
@@ -2718,11 +2730,35 @@ function renderDashboard(){
     ? withBudget.slice(0,6).map(c => budgetRow(c, sum(mList.filter(e => e.category === c.id)), n(BUDGETS[c.id]))).join('')
     : '<div class="empty"><b>No budgets yet</b>Set monthly limits in Expenses to watch them here.</div>';
 
+  // Emergency-fund estimate uses only liquid bank/cash balances plus FD/RD assets.
+  const liquidAccounts=sum(ACCOUNTS.filter(a=>n(a.balance)>0 && a.type!=='Credit card').map(a=>n(a.balance)));
+  const liquidAssets=sum(ASSETS.filter(a=>/FD|RD|Bank|Cash/i.test(String(a.type||'')+' '+String(a.name||''))).map(a=>n(a.value)));
+  const liquid=Math.max(0,liquidAccounts+liquidAssets);
+  const emergencyMonths=spendThis>0 ? liquid/spendThis : 0;
+  setKPI('#kEmergency', emergencyMonths, v=>v.toFixed(1)+' months');
+  $('#kEmergencySub').textContent=liquid>0 ? inr(liquid)+' liquid funds against '+inr(spendThis)+' monthly spending.' : 'Add bank/cash balances to assess your cushion.';
+  renderFinancialAlerts(spendThis);
+
   const overBudgetCount=CATEGORIES.filter(c=>n(BUDGETS[c.id])>0 && sum(monthExpenses(today()).filter(e=>e.category===c.id))>n(BUDGETS[c.id])).length;
   renderHealthScore({income,emi:lt.emi,ratio,surplus,overBudget:overBudgetCount,netWorth:nw.net,goalSaved});
   renderHealth({spendThis, income, emi:lt.emi, ratio, surplus, outstanding:lt.outstanding, tax:bt.tax, goalSaved});
   renderBackupBadge();
   updateStorageMeter();
+}
+
+function renderFinancialAlerts(spendThis){
+  const alerts=[];
+  const unreconciled=ACCOUNTS.filter(a=>!a.reconciledAt).length;
+  if(unreconciled) alerts.push(['warn',unreconciled+' account'+(unreconciled===1?'':'s')+' not reconciled.']);
+  const missingAccount=EXPENSES.concat(INCOME).filter(x=>!((x.accountId||x.account) && ACCOUNTS.some(a=>a.id===(x.accountId||x.account)))).length;
+  if(missingAccount) alerts.push(['bad',missingAccount+' income/expense entr'+(missingAccount===1?'y':'ies')+' need an account link.']);
+  const pastGoals=GOALS.filter(g=>g.date && parseISO(g.date)<today() && n(g.saved)<n(g.target)).length;
+  if(pastGoals) alerts.push(['bad',pastGoals+' goal'+(pastGoals===1?' is':'s are')+' past target date and not fully funded.']);
+  const negativeAccounts=ACCOUNTS.filter(a=>n(a.balance)<0 && a.type!=='Credit card').length;
+  if(negativeAccounts) alerts.push(['warn',negativeAccounts+' non-credit account'+(negativeAccounts===1?' has':'s have')+' a negative balance.']);
+  if(!META.lastBackup) alerts.push(['warn','No backup has been recorded yet. Use “Back up now”.']);
+  if(!alerts.length) alerts.push(['good','No immediate data-quality alerts found.']);
+  $('#financialAlerts').innerHTML=alerts.slice(0,5).map(o=>'<div class="obs"><span class="dot" style="background:'+css(o[0]==='good'?'--green':o[0]==='bad'?'--rust':'--gold')+'"></span><span>'+esc(o[1])+'</span></div>').join('');
 }
 
 /* Plain-English observations built from the user's own figures. */
@@ -2792,6 +2828,7 @@ function runDemoTests(){
   eq(Math.abs(expectedNet-2443000)<0.01,'Net worth','Expected ₹24,43,000 after loans and other liabilities; calculated '+inr(expectedNet)+'.');
   try{const emi=calcEMI(1000000,10,120);eq(Math.abs(emi-13215.07)<1,'EMI engine','₹10 lakh at 10% for 120 months ≈ ₹13,215.07; calculated '+inr(emi)+'.');}catch(e){eq(false,'EMI engine','Error: '+e.message)}
   try{const t=computeRegime('new',{gross:1500000,other:0,hp:0,cg:0,nNPS:0});eq(Number.isFinite(t.finalTax)&&t.finalTax>=0,'FY 2026-27 tax engine','Sample tax result is finite and non-negative: '+inr(t.finalTax)+'.');}catch(e){eq(false,'FY 2026-27 tax engine','Error: '+e.message)}
+  try{const liquid=sum(ACCOUNTS.filter(a=>n(a.balance)>0 && a.type!=='Credit card').map(a=>n(a.balance)))+sum(ASSETS.filter(a=>/FD|RD|Bank|Cash/i.test(String(a.type||'')+' '+String(a.name||''))).map(a=>n(a.value)));eq(Number.isFinite(liquid)&&liquid>=0,'Emergency-fund engine','Liquid-fund calculation returns a valid non-negative value: '+inr(liquid)+'.');}catch(e){eq(false,'Emergency-fund engine','Error: '+e.message)}
   const pass=results.filter(x=>x.ok).length, fail=results.length-pass;
   if($('#demoPass')) $('#demoPass').textContent=pass;
   if($('#demoFail')) $('#demoFail').textContent=fail;
@@ -2896,7 +2933,7 @@ function renderReports(){
 }
 function reportCsv(){
   const {ex,inc}=reportLists(); const nw=netWorthTotals();
-  const rows=[['MoneyDesk v4.3 report',reportPeriod],[],['Income','Amount']];
+  const rows=[['MoneyDesk v4.4 report',reportPeriod],[],['Income','Amount']];
   const it={};inc.forEach(x=>it[x.source||'Other']=(it[x.source||'Other']||0)+n(x.amount)); Object.entries(it).forEach(([k,v])=>rows.push([k,v.toFixed(2)]));
   rows.push([],['Expenses','Amount']); const et={};ex.forEach(x=>{const k=catById(x.category).name;et[k]=(et[k]||0)+n(x.amount)}); Object.entries(et).forEach(([k,v])=>rows.push([k,v.toFixed(2)]));
   rows.push([],['Balance sheet','Amount'],['Assets',nw.assets.toFixed(2)],['Liabilities',nw.liabilities.toFixed(2)],['Net worth',nw.net.toFixed(2)]);
