@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MoneyDesk v3.4 — Personal Finance Workbench</title>
+<title>MoneyDesk v3.5 — Personal Finance Workbench</title>
 
 <!-- ==== FONTS: Poppins for headings/UI, IBM Plex Mono for tabular figures ==== -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -768,7 +768,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
         <div class="card"><div class="card-h"><h3>Slab-wise breakdown — new regime</h3></div><div class="tablewrap"><table id="tblSlabNew"></table></div></div>
       </div>
 
-      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v3.4</div>
+      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v3.5</div>
 
       <div class="disclaimer">This tool provides estimates for planning purposes only. It is not tax, investment, or financial advice. Verify with a qualified chartered accountant or financial adviser before acting on these numbers.</div>
     </section>
@@ -852,7 +852,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
         <div class="grid g3" id="goalCards"></div>
       </div>
 
-      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v3.4</div>
+      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v3.5</div>
 
       <div class="disclaimer">This tool provides estimates for planning purposes only. It is not tax, investment, or financial advice. Verify with a qualified chartered accountant or financial adviser before acting on these numbers.</div>
     </section>
@@ -874,7 +874,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
 
 <!-- ===================== MODALS ===================== -->
 <div class="modal" id="mHelp"><div class="modal-box">
-  <h3>MoneyDesk v3.4 — Help</h3>
+  <h3>MoneyDesk v3.5 — Help</h3>
   <p class="kpi-sub">A quick guide to the main features.</p>
   <div class="card" style="margin-top:14px;box-shadow:none">
     <b>Dashboard</b><p class="kpi-sub">Shows spending, loans, tax estimate, goals, net worth and financial-health observations.</p>
@@ -893,6 +893,12 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
 <div class="modal" id="mData"><div class="modal-box">
   <h3>Data &amp; backup</h3>
   <p class="kpi-sub">Everything lives in this browser only. Clearing browser data wipes it, so keep a backup file somewhere safe.</p>
+  <div class="card" style="margin-top:14px;border:2px solid var(--gold);box-shadow:none;background:var(--soft)">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span class="badge">TEST DATA</span><b>Load Dummy Data</b></div>
+    <p class="kpi-sub" style="margin-top:7px">Loads a complete sample dataset for checking Dashboard, Income, Expenses, Loans, Net Worth, Tax, Goals, Reports and Health Check.</p>
+    <button class="btn" id="btnLoadDemo" style="margin-top:8px">Load Dummy Data for Testing</button>
+    <div class="kpi-sub" style="margin-top:7px">⚠️ This replaces the data currently stored in this browser. Export a backup first if you have real data.</div>
+  </div>
   <div class="grid g2" style="margin-top:16px">
     <button class="btn" id="btnExport">Export all data (.json)</button>
     <button class="btn ghost" id="btnImport">Import from backup</button>
@@ -978,7 +984,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
 <script>
 "use strict";
 /* =====================================================================================
-   MoneyDesk v3.4 — Personal Finance Workbench
+   MoneyDesk v3.5 — Personal Finance Workbench
    Single-file, offline, localStorage-only. No network calls except the two CDN tags.
    ===================================================================================== */
 
@@ -2768,7 +2774,7 @@ function renderReports(){
 }
 function reportCsv(){
   const {ex,inc}=reportLists(); const nw=netWorthTotals();
-  const rows=[['MoneyDesk v3.4 report',reportPeriod],[],['Income','Amount']];
+  const rows=[['MoneyDesk v3.5 report',reportPeriod],[],['Income','Amount']];
   const it={};inc.forEach(x=>it[x.source||'Other']=(it[x.source||'Other']||0)+n(x.amount)); Object.entries(it).forEach(([k,v])=>rows.push([k,v.toFixed(2)]));
   rows.push([],['Expenses','Amount']); const et={};ex.forEach(x=>{const k=catById(x.category).name;et[k]=(et[k]||0)+n(x.amount)}); Object.entries(et).forEach(([k,v])=>rows.push([k,v.toFixed(2)]));
   rows.push([],['Balance sheet','Amount'],['Assets',nw.assets.toFixed(2)],['Liabilities',nw.liabilities.toFixed(2)],['Net worth',nw.net.toFixed(2)]);
@@ -2861,6 +2867,15 @@ function handleImportFile(file){
   reader.onerror = () => toast('Could not read that file.');
   reader.readAsText(file);
 }
+const DEMO_DATA = {"app":"MoneyDesk","schemaVersion":5,"exportedAt":"2026-08-15T15:30:00+05:30","settings":{"theme":"light","monthlyIncome":133000,"appName":"MoneyDesk"},"categories":[],"budgets":{"rent":25000,"groc":15000,"food":10000,"trans":7000,"util":6000,"health":5000,"shop":8000,"emi":30000,"inv":20000,"ins":5000},"accounts":[{"id":"demo-sbi","name":"SBI Savings","balance":185000,"type":"Savings account"},{"id":"demo-hdfc","name":"HDFC Savings","balance":125000,"type":"Savings account"},{"id":"demo-cash","name":"Cash Wallet","balance":15000,"type":"Cash"},{"id":"demo-cc","name":"HDFC Credit Card","balance":-22000,"type":"Credit card"}],"income":[{"id":"demo-inc1","amount":115000,"date":"2026-08-01","source":"Pension","account":"demo-sbi","note":"August pension"},{"id":"demo-inc2","amount":115000,"date":"2026-07-01","source":"Pension","account":"demo-sbi","note":"July pension"},{"id":"demo-inc3","amount":110000,"date":"2026-06-01","source":"Pension","account":"demo-sbi","note":"June pension"},{"id":"demo-inc4","amount":18000,"date":"2026-08-05","source":"Interest","account":"demo-hdfc","note":"FD interest"},{"id":"demo-inc5","amount":22000,"date":"2026-07-10","source":"Rent","account":"demo-hdfc","note":"Rental income"}],"expenses":[{"id":"demo-e1","amount":25000,"date":"2026-08-01","category":"rent","mode":"Net Banking","account":"demo-sbi","note":"House rent","tag":"fixed","recurring":false},{"id":"demo-e2","amount":12000,"date":"2026-08-03","category":"groc","mode":"UPI","account":"demo-sbi","note":"Monthly groceries","tag":"home","recurring":false},{"id":"demo-e3","amount":8000,"date":"2026-08-06","category":"food","mode":"UPI","account":"demo-sbi","note":"Dining & food","tag":"family","recurring":false},{"id":"demo-e4","amount":5000,"date":"2026-08-08","category":"trans","mode":"UPI","account":"demo-sbi","note":"Transport","tag":"","recurring":false},{"id":"demo-e5","amount":4500,"date":"2026-08-09","category":"util","mode":"Net Banking","account":"demo-hdfc","note":"Electricity & utilities","tag":"bills","recurring":false},{"id":"demo-e6","amount":3000,"date":"2026-08-10","category":"health","mode":"Credit Card","account":"demo-cc","note":"Pharmacy & health","tag":"","recurring":false},{"id":"demo-e7","amount":7000,"date":"2026-08-11","category":"shop","mode":"Credit Card","account":"demo-cc","note":"Household shopping","tag":"","recurring":false},{"id":"demo-e8","amount":28750,"date":"2026-08-05","category":"emi","mode":"Net Banking","account":"demo-sbi","note":"Home loan EMI","tag":"loan","recurring":false},{"id":"demo-e9","amount":15000,"date":"2026-08-07","category":"inv","mode":"Net Banking","account":"demo-hdfc","note":"Monthly investment","tag":"SIP","recurring":false},{"id":"demo-e10","amount":4000,"date":"2026-08-12","category":"ins","mode":"Net Banking","account":"demo-hdfc","note":"Insurance premium","tag":"","recurring":false},{"id":"demo-e11","amount":23000,"date":"2026-07-04","category":"travel","mode":"Credit Card","account":"demo-cc","note":"Family travel","tag":"holiday","recurring":false},{"id":"demo-e12","amount":10000,"date":"2026-07-14","category":"food","mode":"UPI","account":"demo-sbi","note":"Eating out","tag":"","recurring":false},{"id":"demo-e13","amount":11500,"date":"2026-06-06","category":"groc","mode":"UPI","account":"demo-sbi","note":"Groceries","tag":"","recurring":false},{"id":"demo-e14","amount":28000,"date":"2026-06-05","category":"emi","mode":"Net Banking","account":"demo-sbi","note":"Home loan EMI","tag":"loan","recurring":false}],"loans":[{"id":"demo-loan1","name":"Home Loan \u2014 Demo Bank","type":"Home","amount":5000000,"rate":8.25,"months":240,"start":"2023-04-01","actualOutstanding":4105000,"emiDueDay":5,"lastPaid":"2026-08-05"},{"id":"demo-loan2","name":"Car Loan \u2014 Demo Bank","type":"Car","amount":900000,"rate":9.5,"months":60,"start":"2025-06-05","actualOutstanding":655000,"emiDueDay":5,"lastPaid":"2026-08-05"}],"assets":[{"id":"demo-a1","name":"Bank & Cash \u2014 Demo","value":325000,"type":"Bank / Cash"},{"id":"demo-a2","name":"Fixed Deposits","value":500000,"type":"FD / RD"},{"id":"demo-a3","name":"Mutual Funds","value":850000,"type":"Mutual Funds"},{"id":"demo-a4","name":"PPF / EPF","value":300000,"type":"PPF / EPF / NPS"},{"id":"demo-a5","name":"Gold","value":250000,"type":"Gold"},{"id":"demo-a6","name":"Residential Property","value":5000000,"type":"Property"}],"liabilities":[{"id":"demo-l1","name":"Credit Card Outstanding","value":22000,"type":"Credit card"}],"goals":[{"id":"demo-g1","name":"Children Education","target":3000000,"saved":600000,"sip":30000,"date":"2030-03-31"},{"id":"demo-g2","name":"Emergency Fund","target":600000,"saved":350000,"sip":10000,"date":"2027-03-31"}],"taxProfile":{"fy":"2026-27","age":"senior","gross":1800000,"other":18000,"hp":0,"cg":0,"d80C":150000,"d80CCD1B":50000,"d80Dself":25000,"d80Dpar":50000,"d80Dpar60":"yes","d80E":0,"d80G":25000,"d80TT":10000,"d24b":150000,"dPT":2400,"hBasic":900000,"hRecv":360000,"hRent":300000,"hMetro":"metro","nNPS":50000}};
+
+function loadDemoData(){
+  if(!confirm('Load the MoneyDesk dummy dataset? This will replace the data currently stored in this browser. Export a backup first if you need to keep it.')) return;
+  pendingImport = structuredCloneSafe(DEMO_DATA);
+  applyImport();
+  toast('Dummy data loaded. Review Dashboard, Loans, Net Worth, Reports and Health Check.');
+}
+
 function applyImport(){
   const d = pendingImport; if(!d) return;
   SETTINGS   = Object.assign({}, DEFAULT_SETTINGS, d.settings || {});
@@ -3079,6 +3094,7 @@ function wire(){
   $('#btnExport').onclick = exportAll;
   $('#btnExportCsv2').onclick = exportExpensesCSV;
   $('#btnImport').onclick = () => $('#fileImport').click();
+  $('#btnLoadDemo').onclick = loadDemoData;
   $('#fileImport').addEventListener('change', e => { if(e.target.files[0]) handleImportFile(e.target.files[0]); e.target.value = ''; });
   $('#btnImportConfirm').onclick = applyImport;
   $('#btnClear').onclick = () => { $('#wipeConfirm').value = ''; $('#btnWipeConfirm').disabled = true; openModal('mWipe'); };
@@ -3090,7 +3106,7 @@ function wire(){
 function bootUI(){
   applyTheme();
   $('#appName').textContent = SETTINGS.appName || 'MoneyDesk';
-  document.title = (SETTINGS.appName || 'MoneyDesk') + ' — Personal Finance Workbench v3.4';
+  document.title = (SETTINGS.appName || 'MoneyDesk') + ' — Personal Finance Workbench v3.5';
   if($('#fyPill')) $('#fyPill').textContent = TAXP.fy ? 'FY '+TAXP.fy : 'FY 2026-27';
 
   refreshSelectors();
