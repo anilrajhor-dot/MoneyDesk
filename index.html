@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MoneyDesk v3.9 — Personal Finance Workbench</title>
+<title>MoneyDesk v4.0 — Personal Finance Workbench</title>
 
 <!-- ==== FONTS: Poppins for headings/UI, IBM Plex Mono for tabular figures ==== -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -298,7 +298,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
     <!-- ===================== TOP BAR ===================== -->
     <header class="topbar">
       <h2 id="viewTitle">Dashboard</h2>
-      <span class="pill" id="appVersionPill" style="font-weight:800;border:2px solid var(--gold);background:var(--gold-soft);color:var(--ink)">MoneyDesk v3.9</span>
+      <span class="pill" id="appVersionPill" style="font-weight:800;border:2px solid var(--gold);background:var(--gold-soft);color:var(--ink)">MoneyDesk v4.0</span>
       <span class="pill" id="fyPill">FY 2026-27</span>
       <div class="meter" title="Browser storage used (limit is about 5 MB)">
         <span>Storage</span>
@@ -672,7 +672,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
       </div>
       <div class="card" style="margin-top:16px;border:2px solid var(--gold);background:var(--soft)">
         <div class="card-h"><h3>🧪 Demo Calculation Tests</h3><button class="btn" id="btnDemoTests">Run Demo Tests</button></div>
-        <div class="note">These tests use the currently loaded dummy dataset. They check known totals, account links, net worth, loan EMI and the tax engine. They do not alter your data.</div>
+        <div class="note">These tests use the currently loaded dummy dataset. They check known totals, account links, net worth, loan EMI and the tax engine. They do not alter your data.</div><div class="note good" style="margin-top:8px"><b>v4.0 accuracy audit:</b> account references are now checked using the actual transaction field used by the app, and imported demo data is validated before being marked as passed.</div>
         <div class="grid g4" style="margin-top:12px">
           <div class="kpi"><div class="kpi-label">Tests passed</div><div class="kpi-value" id="demoPass">0</div></div>
           <div class="kpi acc-rust"><div class="kpi-label">Tests failed</div><div class="kpi-value" id="demoFail">0</div></div>
@@ -792,7 +792,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
         <div class="card"><div class="card-h"><h3>Slab-wise breakdown — new regime</h3></div><div class="tablewrap"><table id="tblSlabNew"></table></div></div>
       </div>
 
-      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v3.9</div>
+      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v4.0</div>
 
       <div class="disclaimer">This tool provides estimates for planning purposes only. It is not tax, investment, or financial advice. Verify with a qualified chartered accountant or financial adviser before acting on these numbers.</div>
     </section>
@@ -876,7 +876,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
         <div class="grid g3" id="goalCards"></div>
       </div>
 
-      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v3.9</div>
+      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v4.0</div>
 
       <div class="disclaimer">This tool provides estimates for planning purposes only. It is not tax, investment, or financial advice. Verify with a qualified chartered accountant or financial adviser before acting on these numbers.</div>
     </section>
@@ -898,7 +898,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
 
 <!-- ===================== MODALS ===================== -->
 <div class="modal" id="mHelp"><div class="modal-box">
-  <h3>MoneyDesk v3.9 — Help</h3>
+  <h3>MoneyDesk v4.0 — Help</h3>
   <p class="kpi-sub">A quick guide to the main features.</p>
   <div class="card" style="margin-top:14px;box-shadow:none">
     <b>Dashboard</b><p class="kpi-sub">Shows spending, loans, tax estimate, goals, net worth and financial-health observations.</p>
@@ -1010,7 +1010,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
 <script>
 "use strict";
 /* =====================================================================================
-   MoneyDesk v3.9 — Personal Finance Workbench
+   MoneyDesk v4.0 — Personal Finance Workbench
    Single-file, offline, localStorage-only. No network calls except the two CDN tags.
    ===================================================================================== */
 
@@ -2718,13 +2718,16 @@ function runDemoTests(){
   const otherLiab=sum(LIABILITIES.map(x=>n(x.value)));
   const expectedNet=assetTotal-loanOutstanding-otherLiab;
   const accountIds=new Set(ACCOUNTS.map(a=>a.id));
-  const linked=EXPENSES.filter(e=>e.accountId).every(e=>accountIds.has(e.accountId)) && INCOME.filter(e=>e.accountId).every(e=>accountIds.has(e.accountId));
+  const accountRef=e=>e.accountId || e.account || '';
+  const txWithAccount=[...EXPENSES,...INCOME].filter(e=>accountRef(e));
+  const brokenRefs=txWithAccount.filter(e=>!accountIds.has(accountRef(e)));
+  const linked=txWithAccount.length>0 && brokenRefs.length===0;
   eq(EXPENSES.length===14,'Dummy expense count','Expected 14 expense records; found '+EXPENSES.length+'.');
   eq(INCOME.length===5,'Dummy income count','Expected 5 income records; found '+INCOME.length+'.');
   eq(Math.abs(aug-112250)<0.01,'August 2026 expenses','Expected ₹1,12,250; calculated '+inr(aug)+'.');
   eq(Math.abs(allIncome-380000)<0.01,'Demo income total','Expected ₹3,80,000 across the five demo income entries; calculated '+inr(allIncome)+'.');
   eq(ACCOUNTS.length===4,'Demo accounts','Expected 4 accounts; found '+ACCOUNTS.length+'.');
-  eq(linked,'Account links','All income and expense account references resolve to existing accounts.');
+  eq(linked,'Account links',linked ? ('All '+txWithAccount.length+' income/expense account references resolve to existing accounts.') : (brokenRefs.length+' transaction(s) have an invalid account reference.'));
   eq(ASSETS.length===6,'Demo assets','Expected 6 assets; found '+ASSETS.length+'.');
   eq(Math.abs(assetTotal-7225000)<0.01,'Asset total','Expected ₹72,25,000; calculated '+inr(assetTotal)+'.');
   eq(LOANS.length===2,'Demo loans','Expected 2 loans; found '+LOANS.length+'.');
@@ -2758,9 +2761,11 @@ function runHealthCheck(){
   const badIncome=INCOME.filter(x=>!x || !x.id || !x.date || !Number.isFinite(Number(x.amount)) || Number(x.amount)<0);
   check(badIncome.length===0,'Income records',badIncome.length+' invalid income record(s) found.');
   const accountIds=new Set(ACCOUNTS.map(a=>a.id));
-  const brokenExpenseAccounts=EXPENSES.filter(x=>x.accountId && !accountIds.has(x.accountId));
-  const brokenIncomeAccounts=INCOME.filter(x=>x.accountId && !accountIds.has(x.accountId));
-  check(brokenExpenseAccounts.length===0 && brokenIncomeAccounts.length===0,'Account links',(brokenExpenseAccounts.length+brokenIncomeAccounts.length)+' transaction(s) refer to an account that no longer exists.');
+  const accountRef=x=>x.accountId || x.account || '';
+  const brokenExpenseAccounts=EXPENSES.filter(x=>accountRef(x) && !accountIds.has(accountRef(x)));
+  const brokenIncomeAccounts=INCOME.filter(x=>accountRef(x) && !accountIds.has(accountRef(x)));
+  const linkedTransactions=EXPENSES.concat(INCOME).filter(x=>accountRef(x));
+  check(brokenExpenseAccounts.length===0 && brokenIncomeAccounts.length===0 && linkedTransactions.length>0,'Account links',(brokenExpenseAccounts.length+brokenIncomeAccounts.length)+' transaction(s) refer to an account that no longer exists; '+linkedTransactions.length+' valid account-linked transactions found.');
 
   const badLoans=LOANS.filter(l=>!l || !l.id || !(Number(l.amount)>0) || !(Number(l.rate)>=0) || !(Number(l.months)>0));
   check(badLoans.length===0,'Loan records',badLoans.length+' invalid loan record(s) found.');
@@ -2834,7 +2839,7 @@ function renderReports(){
 }
 function reportCsv(){
   const {ex,inc}=reportLists(); const nw=netWorthTotals();
-  const rows=[['MoneyDesk v3.9 report',reportPeriod],[],['Income','Amount']];
+  const rows=[['MoneyDesk v4.0 report',reportPeriod],[],['Income','Amount']];
   const it={};inc.forEach(x=>it[x.source||'Other']=(it[x.source||'Other']||0)+n(x.amount)); Object.entries(it).forEach(([k,v])=>rows.push([k,v.toFixed(2)]));
   rows.push([],['Expenses','Amount']); const et={};ex.forEach(x=>{const k=catById(x.category).name;et[k]=(et[k]||0)+n(x.amount)}); Object.entries(et).forEach(([k,v])=>rows.push([k,v.toFixed(2)]));
   rows.push([],['Balance sheet','Amount'],['Assets',nw.assets.toFixed(2)],['Liabilities',nw.liabilities.toFixed(2)],['Net worth',nw.net.toFixed(2)]);
