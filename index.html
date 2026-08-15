@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MoneyDesk v3.3 — Personal Finance Workbench</title>
+<title>MoneyDesk v3.4 — Personal Finance Workbench</title>
 
 <!-- ==== FONTS: Poppins for headings/UI, IBM Plex Mono for tabular figures ==== -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -269,7 +269,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
       <div class="logo">₹</div>
       <div>
         <h1 id="appName">MoneyDesk</h1>
-        <p>Personal Finance Workbench · <b>v3.2</b></p>
+        <p>Personal Finance Workbench · <b>v3.4</b></p>
       </div>
     </div>
     <nav class="nav" id="navMain">
@@ -281,6 +281,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
       <button class="navbtn" data-view="tax"><span class="ic">§</span> Tax</button>
       <button class="navbtn" data-view="goals"><span class="ic">◎</span> Goals</button>
       <button class="navbtn" data-view="reports"><span class="ic">▥</span> Reports</button>
+      <button class="navbtn" data-view="healthcheck"><span class="ic">✓</span> Health Check</button>
     </nav>
     <div class="side-foot">
       <button class="btn ghost sm" id="btnData">Data &amp; backup</button>
@@ -649,6 +650,30 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
     </section>
 
     <!-- ============================================================
+         VIEW: HEALTH CHECK
+         ============================================================ -->
+    <section class="view" id="view-healthcheck">
+      <div class="card" style="border-top:3px solid var(--green)">
+        <div class="card-h"><h3>MoneyDesk Health Check</h3><button class="btn" id="btnRunHealth">Run full check</button></div>
+        <div class="note">This diagnostic checks the app structure, stored-data integrity, core financial calculations, tax engine sanity, backup format and important cross-module links. It does not change your financial data.</div>
+      </div>
+      <div class="grid g4" style="margin-top:16px">
+        <div class="kpi acc-green"><div class="kpi-label">Checks passed</div><div class="kpi-value" id="hcPass">0</div></div>
+        <div class="kpi acc-rust"><div class="kpi-label">Warnings / failures</div><div class="kpi-value" id="hcFail">0</div></div>
+        <div class="kpi"><div class="kpi-label">Data records</div><div class="kpi-value" id="hcRecords">0</div><div class="kpi-sub">Across core modules</div></div>
+        <div class="kpi acc-ink"><div class="kpi-label">Schema</div><div class="kpi-value" id="hcSchema">v5</div><div class="kpi-sub">Current app data format</div></div>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <div class="card-h"><h3>Diagnostic results</h3><span class="kpi-sub" id="hcRunAt">Not run yet</span></div>
+        <div id="hcResults"><div class="empty"><b>Ready to check</b>Press “Run full check” before relying on the diagnostic status.</div></div>
+      </div>
+      <div class="grid g2" style="margin-top:16px">
+        <div class="card"><div class="card-h"><h3>Data integrity</h3></div><div id="hcDataSummary"></div></div>
+        <div class="card"><div class="card-h"><h3>Core calculation tests</h3></div><div id="hcCalcSummary"></div></div>
+      </div>
+    </section>
+
+    <!-- ============================================================
          VIEW: TAX
          ============================================================ -->
     <section class="view" id="view-tax">
@@ -743,7 +768,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
         <div class="card"><div class="card-h"><h3>Slab-wise breakdown — new regime</h3></div><div class="tablewrap"><table id="tblSlabNew"></table></div></div>
       </div>
 
-      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v3.3</div>
+      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v3.4</div>
 
       <div class="disclaimer">This tool provides estimates for planning purposes only. It is not tax, investment, or financial advice. Verify with a qualified chartered accountant or financial adviser before acting on these numbers.</div>
     </section>
@@ -827,7 +852,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
         <div class="grid g3" id="goalCards"></div>
       </div>
 
-      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v3.3</div>
+      <div style="margin-top:18px;text-align:center;font-size:11px;color:var(--muted)"><b>Developed by Anil Sharma</b> · Former General Manager, Central Bank of India · MoneyDesk v3.4</div>
 
       <div class="disclaimer">This tool provides estimates for planning purposes only. It is not tax, investment, or financial advice. Verify with a qualified chartered accountant or financial adviser before acting on these numbers.</div>
     </section>
@@ -844,12 +869,12 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
   <button data-view="networth"><span class="ic">◆</span>Net Worth</button>
   <button data-view="loans"><span class="ic">◍</span>Loans</button>
   <button data-view="tax"><span class="ic">§</span>Tax</button>
-  <button data-view="goals"><span class="ic">◎</span>Goals</button><button data-view="reports"><span class="ic">▥</span>Reports</button>
+  <button data-view="goals"><span class="ic">◎</span>Goals</button><button data-view="reports"><span class="ic">▥</span>Reports</button><button data-view="healthcheck"><span class="ic">✓</span>Check</button>
 </nav>
 
 <!-- ===================== MODALS ===================== -->
 <div class="modal" id="mHelp"><div class="modal-box">
-  <h3>MoneyDesk v3.3 — Help</h3>
+  <h3>MoneyDesk v3.4 — Help</h3>
   <p class="kpi-sub">A quick guide to the main features.</p>
   <div class="card" style="margin-top:14px;box-shadow:none">
     <b>Dashboard</b><p class="kpi-sub">Shows spending, loans, tax estimate, goals, net worth and financial-health observations.</p>
@@ -953,7 +978,7 @@ td input,td select{padding:5px 7px;font-size:12px;border-radius:6px}
 <script>
 "use strict";
 /* =====================================================================================
-   MoneyDesk v3.3 — Personal Finance Workbench
+   MoneyDesk v3.4 — Personal Finance Workbench
    Single-file, offline, localStorage-only. No network calls except the two CDN tags.
    ===================================================================================== */
 
@@ -1073,7 +1098,7 @@ const TAX_CONFIG_DEFAULT = {
    Each module gets its own localStorage key. If one key is corrupted we reset only that
    key and keep the rest of the app alive, rather than crashing on load.
    ===================================================================================== */
-const SCHEMA_VERSION = 4;
+const SCHEMA_VERSION = 5;
 const K = {
   meta:'md.meta', settings:'md.settings', expenses:'md.expenses', income:'md.income', accounts:'md.accounts', categories:'md.categories',
   budgets:'md.budgets', loans:'md.loans', goals:'md.goals', assets:'md.assets', liabilities:'md.liabilities', tax:'md.tax', taxcfg:'md.taxcfg'
@@ -1184,6 +1209,7 @@ function migrate(meta){
   if(meta.version < 2) meta.version = 2;
   if(meta.version < 3) meta.version = 3;
   if(meta.version < 4) meta.version = 4;
+  if(meta.version < 5) meta.version = 5;
   meta.version = SCHEMA_VERSION;
   return meta;
 }
@@ -2645,6 +2671,76 @@ function renderHealth(d){
 }
 
 /* =====================================================================================
+   HEALTH CHECK
+   ===================================================================================== */
+function healthCheckItem(ok, title, detail){
+  return '<div class="obs"><span class="dot" style="background:'+css(ok?'--green':'--rust')+'"></span><span><b>'+esc(title)+'</b><br><span class="kpi-sub">'+esc(detail)+'</span></span></div>';
+}
+function runHealthCheck(){
+  const results=[];
+  const check=(ok,title,detail)=>{results.push({ok,title,detail});};
+  const requiredIds=['view-dashboard','view-expenses','view-money','view-networth','view-loans','view-tax','view-goals','view-reports','view-healthcheck','btnHelp','btnData','btnQuickBackup','btnAddExpense','btnAddIncome','btnAddAccount','btnAddAsset','btnAddLiability','btnSaveLoan','btnSaveGoal','btnRunHealth'];
+  const missing=requiredIds.filter(id=>!document.getElementById(id));
+  check(missing.length===0,'Application controls',missing.length?'Missing: '+missing.join(', '):'All critical navigation and action controls are present.');
+
+  const arrays=[['Expenses',EXPENSES],['Income',INCOME],['Accounts',ACCOUNTS],['Loans',LOANS],['Goals',GOALS],['Assets',ASSETS],['Liabilities',LIABILITIES],['Categories',CATEGORIES]];
+  const badArrays=arrays.filter(x=>!Array.isArray(x[1]));
+  check(badArrays.length===0,'Stored data structure',badArrays.length?'Invalid arrays: '+badArrays.map(x=>x[0]).join(', '):'All core data collections are valid arrays.');
+
+  const badExpenses=EXPENSES.filter(x=>!x || !x.id || !x.date || !Number.isFinite(Number(x.amount)) || Number(x.amount)<0);
+  check(badExpenses.length===0,'Expense records',badExpenses.length+' invalid expense record(s) found.');
+  const badIncome=INCOME.filter(x=>!x || !x.id || !x.date || !Number.isFinite(Number(x.amount)) || Number(x.amount)<0);
+  check(badIncome.length===0,'Income records',badIncome.length+' invalid income record(s) found.');
+  const accountIds=new Set(ACCOUNTS.map(a=>a.id));
+  const brokenExpenseAccounts=EXPENSES.filter(x=>x.accountId && !accountIds.has(x.accountId));
+  const brokenIncomeAccounts=INCOME.filter(x=>x.accountId && !accountIds.has(x.accountId));
+  check(brokenExpenseAccounts.length===0 && brokenIncomeAccounts.length===0,'Account links',(brokenExpenseAccounts.length+brokenIncomeAccounts.length)+' transaction(s) refer to an account that no longer exists.');
+
+  const badLoans=LOANS.filter(l=>!l || !l.id || !(Number(l.amount)>0) || !(Number(l.rate)>=0) || !(Number(l.months)>0));
+  check(badLoans.length===0,'Loan records',badLoans.length+' invalid loan record(s) found.');
+  const badGoals=GOALS.filter(g=>!g || !g.id || !(Number(g.target)>=0));
+  check(badGoals.length===0,'Goal records',badGoals.length+' invalid goal record(s) found.');
+  const badNW=ASSETS.concat(LIABILITIES).filter(x=>!x || !x.id || !(Number(x.value)>=0));
+  check(badNW.length===0,'Net-worth records',badNW.length+' invalid asset/liability record(s) found.');
+
+  try{
+    const emi=calcEMI(1000000,10,120);
+    check(Math.abs(emi-13215.07)<1,'EMI calculation','₹10 lakh at 10% for 120 months returns approximately ₹13,215.07 EMI.');
+    const am=amortise(1000000,10,120);
+    check(!am.impossible && am.rows.length===120 && Math.abs(am.rows.at(-1).closing)<1,'Amortisation','Schedule closes the test loan within the expected 120 months.');
+  }catch(e){ check(false,'Loan calculation engine','Error: '+e.message); }
+
+  try{
+    const cfg=TAX_CONFIG['2026-27'];
+    const t=computeRegime('new',{gross:1500000,other:0,hp:0,cg:0,nNPS:0});
+    check(!!cfg && cfg.new && cfg.new.slabs && cfg.new.slabs.length===7,'FY 2026-27 tax configuration','Seven new-regime slabs are loaded for FY 2026-27.');
+    check(Number.isFinite(t.finalTax) && t.finalTax>=0,'Tax calculation engine','Sample FY 2026-27 calculation returns a finite non-negative result.');
+  }catch(e){ check(false,'Tax calculation engine','Error: '+e.message); }
+
+  try{
+    const nw=netWorthTotals();
+    check(Number.isFinite(nw.assets)&&Number.isFinite(nw.liabilities)&&Number.isFinite(nw.net),'Net-worth calculation','Assets, liabilities and net worth return finite values.');
+  }catch(e){ check(false,'Net-worth calculation','Error: '+e.message); }
+
+  try{
+    const payload={app:'MoneyDesk',schemaVersion:SCHEMA_VERSION,exportedAt:new Date().toISOString(),data:{expenses:EXPENSES,income:INCOME,accounts:ACCOUNTS,loans:LOANS,goals:GOALS,assets:ASSETS,liabilities:LIABILITIES}};
+    const parsed=JSON.parse(JSON.stringify(payload));
+    check(parsed.app==='MoneyDesk' && parsed.schemaVersion===SCHEMA_VERSION,'Backup format','Backup payload can be serialised and parsed without changing its schema marker.');
+  }catch(e){ check(false,'Backup format','Error: '+e.message); }
+
+  const pass=results.filter(r=>r.ok).length, fail=results.length-pass;
+  $('#hcPass').textContent=pass; $('#hcFail').textContent=fail;
+  $('#hcRecords').textContent=arrays.reduce((a,x)=>a+x[1].length,0);
+  $('#hcSchema').textContent='v'+SCHEMA_VERSION;
+  $('#hcRunAt').textContent='Run '+new Date().toLocaleString();
+  $('#hcResults').innerHTML=results.map(r=>healthCheckItem(r.ok,r.title,r.detail)).join('');
+  $('#hcDataSummary').innerHTML=arrays.map(x=>'<div class="obs"><span>'+esc(x[0])+'</span><span style="margin-left:auto" class="num">'+x[1].length+'</span></div>').join('');
+  $('#hcCalcSummary').innerHTML=results.filter(r=>/calculation|Tax|Net-worth|Backup/.test(r.title)).map(r=>healthCheckItem(r.ok,r.title,r.detail)).join('');
+  toast(fail?'Health check completed with '+fail+' warning(s).':'Health check passed all checks.');
+  return {pass,fail};
+}
+
+/* =====================================================================================
    REPORTS
    ===================================================================================== */
 function reportLists(){
@@ -2672,7 +2768,7 @@ function renderReports(){
 }
 function reportCsv(){
   const {ex,inc}=reportLists(); const nw=netWorthTotals();
-  const rows=[['MoneyDesk v3.3 report',reportPeriod],[],['Income','Amount']];
+  const rows=[['MoneyDesk v3.4 report',reportPeriod],[],['Income','Amount']];
   const it={};inc.forEach(x=>it[x.source||'Other']=(it[x.source||'Other']||0)+n(x.amount)); Object.entries(it).forEach(([k,v])=>rows.push([k,v.toFixed(2)]));
   rows.push([],['Expenses','Amount']); const et={};ex.forEach(x=>{const k=catById(x.category).name;et[k]=(et[k]||0)+n(x.amount)}); Object.entries(et).forEach(([k,v])=>rows.push([k,v.toFixed(2)]));
   rows.push([],['Balance sheet','Amount'],['Assets',nw.assets.toFixed(2)],['Liabilities',nw.liabilities.toFixed(2)],['Net worth',nw.net.toFixed(2)]);
@@ -2799,7 +2895,7 @@ function syncSeg(sel, attr, value){
 function showView(name){
   $$('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + name));
   $$('#navMain .navbtn, #navTabs button').forEach(b => b.classList.toggle('active', b.dataset.view === name));
-  const titles = {dashboard:'Dashboard', expenses:'Expenses', money:'Income & Accounts', networth:'Net Worth', loans:'Loans & EMI', tax:'Income tax', goals:'Goals & investments', reports:'Reports'};
+  const titles = {dashboard:'Dashboard', expenses:'Expenses', money:'Income & Accounts', networth:'Net Worth', loans:'Loans & EMI', tax:'Income tax', goals:'Goals & investments', reports:'Reports', healthcheck:'Health Check'};
   $('#viewTitle').textContent = titles[name] || name;
   window.scrollTo({top:0, behavior: reduceMotion ? 'auto' : 'smooth'});
   // Charts sized while hidden render at zero height, so redraw on entry.
@@ -2811,6 +2907,7 @@ function showView(name){
   if(name === 'goals') renderGoalsView();
   if(name === 'dashboard') renderDashboard();
   if(name === 'reports') renderReports();
+  if(name === 'healthcheck') runHealthCheck();
 }
 function applyTheme(){
   const dark = SETTINGS.theme === 'dark';
@@ -2968,6 +3065,9 @@ function wire(){
     SETTINGS.monthlyIncome = v; save.settings(); renderDashboard();
   });
 
+  // ---- Health Check --------------------------------------------------------------
+  $('#btnRunHealth').onclick = runHealthCheck;
+
   // ---- Reports -----------------------------------------------------------------
   $$('#segReportPeriod button').forEach(b => b.onclick = () => { reportPeriod=b.dataset.period; syncSeg('#segReportPeriod','period',reportPeriod); renderReports(); });
   $('#btnReportCsv').onclick = reportCsv;
@@ -2990,7 +3090,7 @@ function wire(){
 function bootUI(){
   applyTheme();
   $('#appName').textContent = SETTINGS.appName || 'MoneyDesk';
-  document.title = (SETTINGS.appName || 'MoneyDesk') + ' — Personal Finance Workbench v3.2';
+  document.title = (SETTINGS.appName || 'MoneyDesk') + ' — Personal Finance Workbench v3.4';
   if($('#fyPill')) $('#fyPill').textContent = TAXP.fy ? 'FY '+TAXP.fy : 'FY 2026-27';
 
   refreshSelectors();
